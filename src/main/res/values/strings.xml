@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Rakht : SAVE LIVE</string>
+    <string name="title_activity_welcome">Welcome</string>
+    <string name="title_activity_signup">SignUp</string>
+</resources>
