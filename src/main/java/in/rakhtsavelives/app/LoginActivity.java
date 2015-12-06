@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         context=getApplicationContext();
         etEmail=(EditText)findViewById(R.id.etEmail);
-        etPass=(EditText)findViewById(R.id.etPassword);
+        etPass=(EditText)findViewById(R.id.etPass);
         btnLogin=(Button)findViewById(R.id.btnLogin);
         tvRegister=(TextView)findViewById(R.id.tvRegister);
         btnLogin.setOnClickListener(new View.OnClickListener(){
@@ -55,7 +56,9 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(
                                     LoginActivity.this,
                                     WelcomeActivity.class);
-                            intent.putExtra("user",user.getUsername());
+                            intent.putExtra("user", user.getUsername());
+                            InitClass.updateParseInstallation(user);
+                            subscribe();
                             startActivity(intent);
                             Toast.makeText(getApplicationContext(),
                                     "Successfully Logged in",
@@ -69,5 +72,17 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+    protected void subscribe(){
+        ParsePush.subscribeInBackground("loggedIN", new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.d("Rakht_DEBUG:", "successfully subscribed to the broadcast channel.");
+                } else {
+                    Log.e("Rakht_ERROR:", "failed to subscribe for push", e);
+                }
+            }
+        });
     }
 }

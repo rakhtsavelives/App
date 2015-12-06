@@ -27,18 +27,9 @@ public class MainActivity extends Activity{
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                initParse();
+                checkUser();
             }
-        },SPLASH_TIME);
-    }
-    private void initParse(){
-        Parse.initialize(this, "jqr2hzu7oRoJL4l3VP09HxcDl3R7kAhP0Cx4D1xx", "eBQOktkPcO42mvgUqdMP0gYlbuGSirxGkFL0EaiB");
-        ParseUser.enableAutomaticUser();
-        ParseInstallation.getCurrentInstallation().saveInBackground();
-        ParseACL defaultACL = new ParseACL();
-        defaultACL.setPublicReadAccess(true);
-        ParseACL.setDefaultACL(defaultACL, true);
-        checkUser();
+        }, SPLASH_TIME);
     }
     private void checkUser(){
         if (ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {

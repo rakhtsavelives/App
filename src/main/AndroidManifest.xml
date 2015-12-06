@@ -16,6 +16,7 @@
     <uses-permission android:name="in.rakhtsavelives.app.permission.C2D_MESSAGE" />
 
     <application
+        android:name=".InitClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
