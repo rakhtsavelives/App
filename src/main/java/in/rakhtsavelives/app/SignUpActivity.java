@@ -1,11 +1,15 @@
 package in.rakhtsavelives.app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,27 +18,70 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
-    EditText etFName,etMName,etLName;
-    Button btnSignUp;
+    EditText etFName,etLName,etEmailSignUp,etPassSignUp,etCPass,etDOB,etAddress1,etAddress2;
+    Spinner spinState,spinCity;
+    ArrayAdapter stateAdapter,cityAdapter;
+    String email,pass,InputError;
+    Button btnNext;
+    Context context;
+    String[] STATE,CITY;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         Intent i=getIntent();
-        final String email=i.getStringExtra("email");
-        final String pass=i.getStringExtra("pass");
+        email=i.getStringExtra("email");
+        pass=i.getStringExtra("pass");
+        context=getApplicationContext();
+        init(email,pass);
+    }
+    protected void init(String email,String pass){
+
+        STATE=getResources().getStringArray(R.array.states);
+        CITY=getResources().getStringArray(R.array.Please_Select_State);
+
+        etEmailSignUp=(EditText)findViewById(R.id.etEmailSignUp);
+        etPassSignUp=(EditText)findViewById(R.id.etPassSignUp);
+        etCPass=(EditText)findViewById(R.id.etCPass);
         etFName=(EditText)findViewById(R.id.etFName);
-        etMName=(EditText)findViewById(R.id.etMName);
         etLName=(EditText)findViewById(R.id.etLName);
-        btnSignUp=(Button)findViewById(R.id.btnSignUp);
+        etDOB=(EditText)findViewById(R.id.etDOB);
+        etAddress1=(EditText)findViewById(R.id.etAddress1);
+        etAddress2=(EditText)findViewById(R.id.etAddress2);
+
+        spinState=(Spinner)findViewById(R.id.spinState);
+        stateAdapter=new ArrayAdapter(context,android.R.layout.simple_spinner_item,STATE);
+        spinState.setAdapter(stateAdapter);
+        spinState.setOnItemSelectedListener(this);
+
+        spinCity=(Spinner)findViewById(R.id.spinCity);
+        cityAdapter=new ArrayAdapter(context,android.R.layout.simple_spinner_item,CITY);
+        spinCity.setAdapter(cityAdapter);
+        spinCity.setOnItemSelectedListener(this);
+
+
+        btnNext=(Button)findViewById(R.id.btnNext);
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(checkInputes())
+                    startActivity(new Intent(context,MedicalDetailsActivity.class));
+                else
+                    Toast.makeText(context,InputError,Toast.LENGTH_LONG).show();
+            }
+        });
+        /*
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signUp(email,pass,etFName.getText().toString(),etMName.getText().toString(),etLName.getText().toString());
             }
-        });
+        });*/
+    }
+    protected boolean checkInputes(){
+        return true;
     }
     protected void signUp(String email,String pass,String fname,String mname,String lname){
         if (email.equals("") && pass.equals("")) {
@@ -67,5 +114,20 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if(parent==spinState){
+            Toast.makeText(context,"States",Toast.LENGTH_SHORT).show();
+        }
+        if(parent==spinCity){
+            Toast.makeText(context,"Cities",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

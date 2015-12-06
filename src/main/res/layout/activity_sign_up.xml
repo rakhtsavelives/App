@@ -1,98 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="in.rakhtsavelives.app.SignUpActivity">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Sign Up"
-        android:id="@+id/tvSignUp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+    tools:context=".LoginActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etFName"
-        android:layout_marginTop="49dp"
-        android:layout_below="@+id/tvSignUp"
-        android:layout_alignLeft="@+id/tvSignUp"
-        android:layout_alignStart="@+id/tvSignUp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/etEmailSignUp"
+            android:layout_marginTop="35dp"
+            android:hint="Eamil"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="First Name :"
-        android:gravity="right"
-        android:id="@+id/tvFName"
-        android:layout_alignTop="@+id/etFName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/tvMName"
-        android:layout_alignEnd="@+id/tvMName" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:hint="Password"
+            android:id="@+id/etPassSignUp"
+            android:layout_below="@+id/etEmailSignUp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Middle Name :"
-        android:gravity="right"
-        android:id="@+id/tvMName"
-        android:layout_below="@+id/etFName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="27dp" />
+        <EditText
+            android:hint="Confirm Password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/etCPass"
+            android:layout_marginTop="35dp"
+            android:layout_below="@+id/etPassSignUp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/etPassSignUp"
+            android:layout_alignEnd="@+id/etPassSignUp" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etMName"
-        android:layout_alignTop="@+id/tvMName"
+        <EditText
+            android:hint="First Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/etFName"
+            android:layout_below="@+id/etCPass"
+            android:layout_alignLeft="@+id/etCPass"
+            android:layout_alignStart="@+id/etCPass"
+            android:layout_marginTop="35dp"
+            android:layout_alignRight="@+id/etCPass"
+            android:layout_alignEnd="@+id/etCPass" />
 
-        android:layout_alignLeft="@+id/etFName"
-        android:layout_alignStart="@+id/etFName"
-        android:layout_alignRight="@+id/etFName"
-        android:layout_alignEnd="@+id/etFName" />
+        <EditText
+            android:hint="Last Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/etLName"
+            android:layout_below="@+id/etFName"
+            android:layout_alignLeft="@+id/etFName"
+            android:layout_alignStart="@+id/etFName"
+            android:layout_marginTop="35dp"
+            android:layout_alignRight="@+id/etFName"
+            android:layout_alignEnd="@+id/etFName" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etLName"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/tvMName"
-        android:layout_toEndOf="@+id/tvMName" />
+        <EditText
+            android:hint="Date Of Birth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:ems="10"
+            android:id="@+id/etDOB"
+            android:layout_below="@+id/etLName"
+            android:layout_alignLeft="@+id/etLName"
+            android:layout_alignStart="@+id/etLName"
+            android:layout_marginTop="35dp"
+            android:layout_alignRight="@+id/etLName"
+            android:layout_alignEnd="@+id/etLName" />
 
-    <TextView
-        android:gravity="right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Last Name :"
-        android:id="@+id/tvLName"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/etLName"
-        android:layout_toStartOf="@+id/etLName" />
+        <EditText
+            android:hint="Address 1 / Home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/etAddress1"
+            android:layout_below="@+id/etDOB"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="35dp"
+            android:layout_alignLeft="@+id/etDOB"
+            android:layout_alignStart="@+id/etDOB" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign Up"
-        android:id="@+id/btnSignUp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp" />
+        <EditText
+            android:hint="Address 2 / Work"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/etAddress2"
+            android:layout_below="@+id/etAddress1"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-</RelativeLayout>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinState"
+            android:layout_below="@id/etAddress2"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinCity"
+            android:layout_marginTop="35dp"
+            android:layout_below="@+id/spinState"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:id="@+id/btnNext"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/spinCity"
+            android:layout_marginTop="35dp"/>
+
+
+    </RelativeLayout>
+
+</ScrollView>
