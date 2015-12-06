@@ -2,15 +2,25 @@
     <string name="app_name">Rakht : SAVE LIVES</string>
     <string name="title_activity_welcome">Welcome</string>
     <string name="title_activity_signup">SignUp</string>
+    <string-array name="bg">
+        <item>AB+ve</item>
+        <item>AB-ve</item>
+        <item>A+ve</item>
+        <item>A-ve</item>
+        <item>B+ve</item>
+        <item>B-ve</item>
+        <item>O+ve</item>
+        <item>O-ve</item>
+    </string-array>
     <string-array name="states">
         <item>Please_Select_State</item>
         <item>Gujarat</item>
         <item>Maharashtra</item>
     </string-array>
-    <string-array name="Please_Select_State">
+    <string-array name="pss">
         <item>Please_Select_City</item>
     </string-array>
-    <string-array name="Gujarat">
+    <string-array name="guj">
         <item>Please_Select_City</item>
         <item>Gandhinagar</item>
         <item>Ahmadabad</item>
@@ -19,7 +29,7 @@
         <item>Surat</item>
         <item>Rajkot</item>
     </string-array>
-    <string-array name="Maharashtra">
+    <string-array name="mah">
         <item>Please_Select_City</item>
         <item>Mumbai</item>
         <item>Pune</item>

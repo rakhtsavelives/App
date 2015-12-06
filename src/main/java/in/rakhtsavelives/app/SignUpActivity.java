@@ -18,15 +18,15 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     EditText etFName,etLName,etEmailSignUp,etPassSignUp,etCPass,etDOB,etAddress1,etAddress2;
-    Spinner spinState,spinCity;
-    ArrayAdapter stateAdapter,cityAdapter;
+    Spinner spinState,spinCity,spinBG;
+    ArrayAdapter stateAdapter,cityAdapter,bgAdapter;
     String email,pass,InputError;
     Button btnNext;
     Context context;
-    String[] STATE,CITY;
+    String[] STATE,CITY,BG;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +40,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     protected void init(String email,String pass){
 
         STATE=getResources().getStringArray(R.array.states);
-        CITY=getResources().getStringArray(R.array.Please_Select_State);
+        CITY=getResources().getStringArray(R.array.pss);
+        BG=getResources().getStringArray(R.array.bg);
 
         etEmailSignUp=(EditText)findViewById(R.id.etEmailSignUp);
         etPassSignUp=(EditText)findViewById(R.id.etPassSignUp);
@@ -52,15 +53,20 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         etAddress2=(EditText)findViewById(R.id.etAddress2);
 
         spinState=(Spinner)findViewById(R.id.spinState);
-        stateAdapter=new ArrayAdapter(context,android.R.layout.simple_spinner_item,STATE);
-        spinState.setAdapter(stateAdapter);
-        spinState.setOnItemSelectedListener(this);
+        stateAdapter=new ArrayAdapter(context,R.layout.spinner_item,STATE);
 
         spinCity=(Spinner)findViewById(R.id.spinCity);
-        cityAdapter=new ArrayAdapter(context,android.R.layout.simple_spinner_item,CITY);
-        spinCity.setAdapter(cityAdapter);
-        spinCity.setOnItemSelectedListener(this);
+        cityAdapter=new ArrayAdapter(context,R.layout.spinner_item,CITY);
 
+        spinBG=(Spinner)findViewById(R.id.spinBG);
+        bgAdapter=new ArrayAdapter(context,R.layout.spinner_item,BG);
+
+        spinState.setAdapter(stateAdapter);
+        spinCity.setAdapter(cityAdapter);
+        spinBG.setAdapter(bgAdapter);
+
+        spinState.setOnItemSelectedListener(this);
+        spinCity.setOnItemSelectedListener(this);
 
         btnNext=(Button)findViewById(R.id.btnNext);
         btnNext.setOnClickListener(new View.OnClickListener() {
@@ -90,8 +96,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                     Toast.LENGTH_LONG).show();
 
         } else {
-            final ParseQuery pq=new ParseQuery("User");
-
+            //final ParseQuery pq=new ParseQuery("User");
             ParseUser user = new ParseUser();
             user.setUsername(email);
             user.setPassword(pass);
@@ -115,14 +120,22 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             });
         }
     }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(parent==spinState){
-            Toast.makeText(context,"States",Toast.LENGTH_SHORT).show();
-        }
-        if(parent==spinCity){
-            Toast.makeText(context,"Cities",Toast.LENGTH_SHORT).show();
+        if (parent == spinState) {
+            switch (parent.getItemAtPosition(position).toString()) {
+                case "Gujarat":
+                    CITY = getResources().getStringArray(R.array.guj);
+                    break;
+                case "Maharashtra":
+                    CITY = getResources().getStringArray(R.array.mah);
+                    break;
+                case "Please_Select_State":
+                    CITY = getResources().getStringArray(R.array.pss);
+                    break;
+            }
+            cityAdapter = new ArrayAdapter(context, R.layout.spinner_item, CITY);
+            spinCity.setAdapter(cityAdapter);
         }
     }
 

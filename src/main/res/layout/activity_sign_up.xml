@@ -6,7 +6,7 @@
     android:layout_height="fill_parent"
     android:fillViewport="true"
 
-    tools:context=".LoginActivity">
+    tools:context=".SignUpActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -96,8 +96,8 @@
             android:layout_alignLeft="@+id/etLName"
             android:layout_alignStart="@+id/etLName"
             android:layout_marginTop="35dp"
-            android:layout_alignRight="@+id/etLName"
-            android:layout_alignEnd="@+id/etLName" />
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <EditText
             android:hint="Address 1 / Home"
@@ -106,7 +106,7 @@
             android:inputType="textMultiLine"
             android:ems="10"
             android:id="@+id/etAddress1"
-            android:layout_below="@+id/etDOB"
+            android:layout_below="@+id/tvBG"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="35dp"
@@ -136,6 +136,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
+            android:spinnerMode="dropdown"
             android:layout_alignParentEnd="true" />
 
         <Spinner
@@ -147,7 +148,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:spinnerMode="dropdown"
+            android:layout_alignParentEnd="true"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -157,6 +159,29 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/spinCity"
             android:layout_marginTop="35dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Blood Group :"
+            android:id="@+id/tvBG"
+            android:layout_below="@+id/etDOB"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinBG"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignLeft="@+id/btnNext"
+            android:layout_alignStart="@+id/btnNext"
+            android:layout_below="@+id/etDOB"
+            android:spinnerMode="dropdown"
+            android:layout_marginTop="30dp"/>
 
 
     </RelativeLayout>
