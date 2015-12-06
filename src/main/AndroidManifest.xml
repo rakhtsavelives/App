@@ -55,11 +55,12 @@
 
         <activity
             android:name=".WelcomeActivity"
-            android:label="@string/title_activity_welcome"></activity>
+            android:label="@string/title_activity_welcome"/>
         <activity
             android:name=".SignUpActivity"
-            android:label="@string/title_activity_signup"></activity>
-        <activity android:name=".MedicalDetailsActivity"></activity>
+            android:label="@string/title_activity_signup"/>
+        <activity android:name=".MedicalDetailsActivity"
+            android:label="Medical Details"/>
     </application>
 
 </manifest>

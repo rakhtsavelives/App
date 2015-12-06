@@ -22,7 +22,7 @@
             android:ems="10"
             android:id="@+id/etEmailSignUp"
             android:layout_marginTop="35dp"
-            android:hint="Eamil"
+            android:hint="Email"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -86,7 +86,7 @@
             android:layout_alignEnd="@+id/etFName" />
 
         <EditText
-            android:hint="Date Of Birth"
+            android:hint="Date Of Birth [ DD-MM-YYYY ]"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="phone"
@@ -106,7 +106,7 @@
             android:inputType="textMultiLine"
             android:ems="10"
             android:id="@+id/etAddress1"
-            android:layout_below="@+id/tvBG"
+            android:layout_below="@+id/etPhone"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="35dp"
@@ -168,9 +168,7 @@
             android:id="@+id/tvBG"
             android:layout_below="@+id/etDOB"
             android:layout_marginTop="35dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
+            android:layout_marginLeft="5dp"/>
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -182,6 +180,19 @@
             android:layout_below="@+id/etDOB"
             android:spinnerMode="dropdown"
             android:layout_marginTop="30dp"/>
+        <EditText
+            android:hint="Phone Number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:ems="10"
+            android:id="@+id/etPhone"
+            android:layout_below="@id/tvBG"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
 
     </RelativeLayout>

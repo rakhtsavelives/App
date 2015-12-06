@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                 i.putExtra("email",email);
                 i.putExtra("pass",pass);
                 startActivity(i);
+                finish();
             }
         });
     }
