@@ -17,7 +17,7 @@ public class MedicalDetailsActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MedicalDetailsActivity.this,WelcomeActivity.class));
+                startActivity(new Intent(MedicalDetailsActivity.this,ProfileActivity.class));
                 finish();
             }
         });

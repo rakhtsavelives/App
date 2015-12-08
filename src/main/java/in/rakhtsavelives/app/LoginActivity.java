@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (user != null) {
                             Intent intent = new Intent(
                                     LoginActivity.this,
-                                    WelcomeActivity.class);
+                                    ProfileActivity.class);
                             intent.putExtra("user", user.getUsername());
                             InitClass.updateParseInstallation(user);
                             subscribe();

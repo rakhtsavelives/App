@@ -21,13 +21,12 @@
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/etEmailSignUp"
-            android:layout_marginTop="35dp"
             android:hint="Email"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ibChooseProfilePic"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -40,8 +39,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="35dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_toStartOf="@+id/ibChooseProfilePic"
+            android:layout_alignRight="@+id/etEmailSignUp"
+            android:layout_alignEnd="@+id/etEmailSignUp" />
 
         <EditText
             android:hint="Confirm Password"
@@ -54,8 +54,8 @@
             android:layout_below="@+id/etPassSignUp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/etPassSignUp"
-            android:layout_alignEnd="@+id/etPassSignUp" />
+            android:layout_alignRight="@+id/ibChooseProfilePic"
+            android:layout_alignEnd="@+id/ibChooseProfilePic" />
 
         <EditText
             android:hint="First Name"
@@ -151,7 +151,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Blood Group :"
-            android:id="@+id/tvBG"
+            android:id="@+id/tvBloodGroup"
             android:layout_below="@+id/tvDOB"
             android:layout_marginTop="35dp"
             android:layout_marginLeft="5dp"/>
@@ -173,7 +173,7 @@
             android:inputType="phone"
             android:ems="10"
             android:id="@+id/etPhone"
-            android:layout_below="@id/tvBG"
+            android:layout_below="@id/tvBloodGroup"
             android:layout_marginTop="35dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -198,11 +198,22 @@
             android:inputType="date"
             android:ems="10"
             android:id="@+id/etDOB"
+            android:hint="DD-MM-YYYY"
             android:layout_below="@id/etLName"
             android:layout_marginTop="25dp"
             android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/tvBG"
+            android:layout_toRightOf="@+id/tvBloodGroup"
             android:layout_alignRight="@+id/spinBG"/>
+
+        <ImageButton
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:id="@+id/ibChooseProfilePic"
+            android:background="@drawable/profile_button"
+            android:src="@drawable/icon_blank_profile_64"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
 
     </RelativeLayout>

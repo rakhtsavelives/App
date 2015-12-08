@@ -54,7 +54,7 @@
         </receiver>
 
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".ProfileActivity"
             android:label="@string/title_activity_welcome"/>
         <activity
             android:name=".SignUpActivity"
