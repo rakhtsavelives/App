@@ -29,14 +29,19 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.ProgressCallback;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.StreamHandler;
 
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -50,7 +55,10 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     int day,month,year;
     ArrayList<String> STATE,CITY,BG;
     ParseObject parseObject;
-    private static int RESULT_LOAD_IMAGE = 1;
+    private static int RESULT_LOAD_IMAGE = 1,RESULT_CROP_IMAGE=2;
+    String useremail,userpass,userfname,usercpass,userlname,userdob,useradd1,useradd2,userstate,
+            usercity,userbg,userphone;
+    ParseFile pf=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,9 +114,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         ibChooseProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(
-                        Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
+                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
@@ -117,22 +123,20 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email,pass,cpass,fname,lname,dob,add1,add2,state,city,bg,phone;
-                email=etEmailSignUp.getText().toString();
-                pass=etPassSignUp.getText().toString();
-                cpass=etCPass.getText().toString();
-                fname=etFName.getText().toString();
-                lname=etLName.getText().toString();
-                dob=etDOB.getText().toString();
-                add1=etAddress1.getText().toString();
-                add2=etAddress2.getText().toString();
-                state=spinState.getSelectedItem().toString();
-                city=spinCity.getSelectedItem().toString();
-                bg=spinBG.getSelectedItem().toString();
-                phone=etPhone.getText().toString();
-                if(checkInputes(email,pass,cpass,fname,lname,dob,add1,add2,state,city,bg,phone)) {
-                    signUp(email,pass,fname,lname,dob,add1,add2,state,city,bg,phone);
-                    finish();
+                useremail=etEmailSignUp.getText().toString();
+                userpass=etPassSignUp.getText().toString();
+                usercpass=etCPass.getText().toString();
+                userfname=etFName.getText().toString();
+                userlname=etLName.getText().toString();
+                userdob=etDOB.getText().toString();
+                useradd1=etAddress1.getText().toString();
+                useradd2=etAddress2.getText().toString();
+                userstate=spinState.getSelectedItem().toString();
+                usercity=spinCity.getSelectedItem().toString();
+                userbg=spinBG.getSelectedItem().toString();
+                userphone=etPhone.getText().toString();
+                if(checkInputes()) {
+                    signUp();
                 }
             }
         });
@@ -192,7 +196,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     private void getCity(String state){
         ParseQuery<ParseObject> query=new ParseQuery<ParseObject>("City");
         query.addAscendingOrder("ID");
-        query.whereEqualTo("State",state);
+        query.whereEqualTo("State", state);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -216,46 +220,59 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             }
         });
     }
-    protected boolean checkInputes(String email,String pass,String cpass,String fname,
-                                   String lname,String dob,String add1,String add2,
-                                   String state,String city,String bg,String phone){
-        if(email.isEmpty()|| pass.isEmpty()|| fname.isEmpty()|| lname.isEmpty()
-                || dob.isEmpty()|| add1.isEmpty()|| add2.isEmpty()|| phone.isEmpty()
-                || state.equals(dState)||city.equals(dCity)||bg.equals(dBG)
+    protected boolean checkInputes(){
+        if(useremail.isEmpty()|| userpass.isEmpty()|| userfname.isEmpty()|| userlname.isEmpty()
+                || userdob.isEmpty()|| useradd1.isEmpty()|| useradd2.isEmpty()|| userphone.isEmpty()
+                || userstate.equals(dState)||usercity.equals(dCity)||userbg.equals(dBG)
                 || picturePath==null){
             Toast.makeText(context,"Please Fill All Details",Toast.LENGTH_SHORT).show();
             return false;
         }
         else {
-            if (pass.equals(cpass)) return true;
+            if (userpass.equals(usercpass)) return true;
             else {
                 Toast.makeText(context, "Passwords don't Match", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
     }
-    protected void signUp(String email,String pass,String fname,
-                          String lname,String dob,String add1,
-                          String add2,String state,String city,
-                          String bg, String phone) {
+    protected void signUp() {
         Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
         byte[] image = stream.toByteArray();
-        ParseFile pf=new ParseFile(fname+"_"+lname+".png",image);
-        pf.saveInBackground();
+        pf=new ParseFile(userfname+"_"+userlname+".png",image);
+        Log.d(TAG,"Upload Started");
+        pf.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.d(TAG, "Upload Complete");
+                    Log.d(TAG, pf.getUrl());
+                    saveToParse();
+                }
+            }
+        }, new ProgressCallback() {
+            @Override
+            public void done(Integer percentDone) {
+                Log.d(TAG, percentDone + "% done");
+            }
+        });
+
+    }
+    private void saveToParse(){
         ParseUser user = new ParseUser();
-        user.setUsername(email);
-        user.setPassword(pass);
-        user.put("First_Name", fname);
-        user.put("Last_Name", lname);
-        user.put("DOB",dob);
-        user.put("Address1",add1);
-        user.put("Address2",add2);
-        user.put("State",state);
-        user.put("City",city);
-        user.put("BG",bg);
-        user.put("Phone",Long.parseLong(phone));
+        user.setUsername(useremail);
+        user.setPassword(userpass);
+        user.put("First_Name", userfname);
+        user.put("Last_Name", userlname);
+        user.put("DOB",userdob);
+        user.put("Address1",useradd1);
+        user.put("Address2",useradd2);
+        user.put("State",userstate);
+        user.put("City",usercity);
+        user.put("BG",userbg);
+        user.put("Phone",Long.parseLong(userphone));
         user.put("ProfilePic",pf);
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
@@ -264,9 +281,9 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                             "Account is Created, please Fill Medical Details.",
                             Toast.LENGTH_LONG).show();
                     startActivity(new Intent(context, MedicalDetailsActivity.class));
+                    finish();
                 } else {
-                    Toast.makeText(context,
-                            "Sign up Error: " + e.getMessage(), Toast.LENGTH_LONG)
+                    Toast.makeText(context, "Sign up Error: " + e.getMessage(), Toast.LENGTH_LONG)
                             .show();
                     Log.e(TAG, e.toString());
                 }
@@ -292,14 +309,17 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
+            Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picturePath = cursor.getString(columnIndex);
             cursor.close();
-            ibChooseProfilePic.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+            ByteArrayOutputStream stream=new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            ibChooseProfilePic.setImageBitmap(Bitmap.createScaledBitmap(bitmap,110,110,false));
+
         }
     }
 }

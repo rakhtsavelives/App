@@ -12,10 +12,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.parse.GetDataCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -43,9 +41,9 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void done(byte[] data, ParseException e) {
                 if (e == null) {
-                    Log.d("test","We've got data in data.");
+                    Log.d("test", "We've got data in data.");
                     Bitmap bmp = BitmapFactory.decodeByteArray(data, 0,data.length);
-                    ibProfile.setImageBitmap(bmp);
+                    ibProfile.setImageBitmap(Bitmap.createScaledBitmap(bmp,80,80,false));
                 } else {
                     Log.d("test", "There was a problem downloading the data.");
                 }

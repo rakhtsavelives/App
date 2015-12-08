@@ -35,7 +35,7 @@
         android:text="Medium Text"
         android:id="@+id/tvName"
         android:textSize="25dp"
-        android:layout_alignBottom="@+id/tvBloodGroup"
+        android:layout_alignBottom="@+id/tvBG"
         android:layout_alignRight="@+id/logout"
         android:layout_alignEnd="@+id/logout" />
 
@@ -53,8 +53,10 @@
         android:layout_height="1dp"
         android:background="@android:color/black"
         android:id="@+id/line1"
-        android:layout_marginTop="21dp"
-        android:layout_below="@+id/tvName"
+        android:layout_below="@+id/tvBloodGroup"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp"
         android:layout_toLeftOf="@+id/ibProfile"
         android:layout_toStartOf="@+id/ibProfile" />
 
