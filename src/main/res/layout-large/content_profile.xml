@@ -12,32 +12,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/user"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/logout"
-        android:layout_alignStart="@+id/logout"
-        android:layout_marginBottom="45dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="LogOut"
-        android:id="@+id/logout"
-        android:layout_above="@+id/user"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/tvName"
         android:textSize="25dp"
-        android:layout_alignBottom="@+id/tvBG"
-        android:layout_alignRight="@+id/logout"
-        android:layout_alignEnd="@+id/logout" />
+        android:layout_alignBottom="@+id/tvBloodGroup"
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:layout_width="150dp"
@@ -45,7 +25,8 @@
         android:id="@+id/ibProfile"
         android:src="@drawable/icon_blood_128"
         android:background="@drawable/profile_button"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/ibLogout"
+        android:layout_marginTop="25dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
     <View
@@ -53,10 +34,10 @@
         android:layout_height="1dp"
         android:background="@android:color/black"
         android:id="@+id/line1"
-        android:layout_below="@+id/tvBloodGroup"
+        android:layout_alignBottom="@+id/ibProfile"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginBottom="55dp"
         android:layout_toLeftOf="@+id/ibProfile"
         android:layout_toStartOf="@+id/ibProfile" />
 
@@ -72,7 +53,174 @@
         android:background="@drawable/icon_blood_64"
         android:gravity="center"
         android:textSize="20dp"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/ibProfile"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/ibProfile"
+        android:layout_marginTop="45dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true" >
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+                <TextView
+                    android:textSize="25dp"
+                    android:text="DOB : "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="right"/>
+                <EditText
+                    android:id="@+id/edProfileDOB"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:enabled="false"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+                <TextView
+                    android:text="Phone No : "
+                    android:layout_width="wrap_content"
+                    android:textSize="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="right"/>
+                <EditText
+                    android:id="@+id/edProfilePhone"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:inputType="textMultiLine"
+                    android:enabled="false"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+                <TextView
+                    android:textSize="25dp"
+                    android:text="Address 1 : "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="right"/>
+                <EditText
+                    android:id="@+id/edProfileAddress1"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:inputType="textMultiLine"
+                    android:enabled="false"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+                <TextView
+                    android:textSize="25dp"
+                    android:text="Address 2 : "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="right"/>
+                <EditText
+                    android:id="@+id/edProfileAddress2"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:inputType="textMultiLine"
+                    android:enabled="false"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+                <TextView
+                    android:textSize="25dp"
+                    android:text="City : "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="right"/>
+                <EditText
+                    android:id="@+id/edProfileCity"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:inputType="textMultiLine"
+                    android:enabled="false"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+                <TextView
+                    android:textSize="25dp"
+                    android:text="State : "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="right"/>
+                <EditText
+                    android:id="@+id/edProfileState"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:inputType="textMultiLine"
+                    android:enabled="false"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:gravity="center">
+                <Button
+                    android:textSize="25dp"
+                    android:id="@+id/btnProfileUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:layout_column="2"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"/>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibLogout"
+        android:background="#FFF"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/icon_logout_32"
+        android:layout_alignBottom="@+id/ibEdit" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibEdit"
+        android:src="@drawable/icon_edit_32"
+        android:background="#FFF"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/ibLogout"
+        android:layout_marginRight="15dp"
+        android:layout_toStartOf="@+id/ibLogout" />
 </RelativeLayout>

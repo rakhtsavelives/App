@@ -7,6 +7,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -271,9 +277,9 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         user.put("Address2",useradd2);
         user.put("State",userstate);
         user.put("City",usercity);
-        user.put("BG",userbg);
+        user.put("BG", userbg);
         user.put("Phone",Long.parseLong(userphone));
-        user.put("ProfilePic",pf);
+        user.put("ProfilePic", pf);
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
@@ -318,8 +324,26 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
             ByteArrayOutputStream stream=new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            bitmap=Bitmap.createScaledBitmap(bitmap, ibChooseProfilePic.getWidth(), ibChooseProfilePic.getWidth(), false);
+            bitmap=getCroppedBitmap(bitmap);
             ibChooseProfilePic.setImageBitmap(Bitmap.createScaledBitmap(bitmap,110,110,false));
 
         }
+    }
+    public Bitmap getCroppedBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
+                bitmap.getWidth() / 2, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
     }
 }

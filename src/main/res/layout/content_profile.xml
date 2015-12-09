@@ -12,31 +12,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/user"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/logout"
-        android:layout_alignStart="@+id/logout"
-        android:layout_marginBottom="45dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="LogOut"
-        android:id="@+id/logout"
-        android:layout_above="@+id/user"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/tvName"
         android:layout_alignTop="@+id/ibProfile"
-        android:layout_alignRight="@+id/logout"
-        android:layout_alignEnd="@+id/logout" />
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:layout_width="75dp"
@@ -44,18 +25,20 @@
         android:id="@+id/ibProfile"
         android:src="@drawable/icon_blood_64"
         android:background="@drawable/profile_button"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/ibLogout"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="14dp" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/black"
         android:id="@+id/line1"
-        android:layout_below="@+id/tvBloodGroup"
+        android:layout_below="@+id/tvName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/ibProfile"
-        android:layout_toStartOf="@+id/ibProfile"
-        android:layout_marginTop="13dp" />
+        android:layout_toStartOf="@+id/ibProfile" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -68,8 +51,167 @@
         android:textSize="10dp"
         android:background="@drawable/icon_blood_32"
         android:gravity="center"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/ibProfile"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/ibProfile"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true" >
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+                <TextView
+                    android:text="DOB : "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="right"/>
+                <EditText
+                    android:id="@+id/etProfileDOB"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:enabled="false"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+                <TextView
+                    android:text="Phone No : "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="right"/>
+                <EditText
+                    android:id="@+id/etProfilePhone"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:inputType="textMultiLine"
+                    android:enabled="false"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+                <TextView
+                    android:text="Address 1 : "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="right"/>
+                <EditText
+                    android:id="@+id/etProfileAddress1"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:inputType="textMultiLine"
+                    android:enabled="false"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+                <TextView
+                    android:text="Address 2 : "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="right"/>
+                <EditText
+                    android:id="@+id/etProfileAddress2"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:inputType="textMultiLine"
+                    android:enabled="false"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+                <TextView
+                    android:text="City : "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="right"/>
+                <EditText
+                    android:id="@+id/etProfileCity"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:inputType="textMultiLine"
+                    android:enabled="false"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+                <TextView
+                    android:text="State : "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="right"/>
+                <EditText
+                    android:id="@+id/etProfileState"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:inputType="textMultiLine"
+                    android:enabled="false"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+                <Button
+                    android:id="@+id/btnProfileUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:layout_column="2"
+                    android:text="Update"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"/>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibLogout"
+        android:background="#FFF"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/icon_logout_24" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibEdit"
+        android:src="@drawable/icon_edit_24"
+        android:background="#FFF"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/ibLogout"
+        android:layout_marginRight="7dp"
+        android:layout_toStartOf="@+id/ibLogout" />
 
 </RelativeLayout>
