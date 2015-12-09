@@ -31,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     ImageButton ibProfile,ibLogout,ibEdit;
     Button btnProfileUpdate;
     String name,bg,dob,phone,add1,add2,city,state;
+    int heightOfBitmap,widthOfBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,13 @@ public class ProfileActivity extends AppCompatActivity {
         ibLogout=(ImageButton)findViewById(R.id.ibLogout);
         ibProfile=(ImageButton)findViewById(R.id.ibProfile);
         ibEdit=(ImageButton)findViewById(R.id.ibEdit);
+
+        heightOfBitmap=ibProfile.getHeight();
+        widthOfBitmap=ibProfile.getWidth();
+        if(heightOfBitmap <= 0 || widthOfBitmap<=0 ){
+            heightOfBitmap=100;
+            widthOfBitmap=100;
+        }
 
         btnProfileUpdate=(Button)findViewById(R.id.btnProfileUpdate);
 
@@ -69,7 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
                 if (e == null) {
                     Log.d("test", "We've got data in data.");
                     Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    bmp=Bitmap.createScaledBitmap(bmp, ibProfile.getWidth(), ibProfile.getWidth(), false);
+                    bmp=Bitmap.createScaledBitmap(bmp, widthOfBitmap, heightOfBitmap, false);
                     bmp=getCroppedBitmap(bmp);
                     ibProfile.setImageBitmap(bmp);
                 } else {

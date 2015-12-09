@@ -15,9 +15,10 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/tvName"
-        android:layout_alignTop="@+id/ibProfile"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignBottom="@+id/tvBloodGroup"
+        android:layout_toRightOf="@+id/tvBloodGroup"
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/tvBloodGroup" />
 
     <ImageButton
         android:layout_width="75dp"
@@ -34,9 +35,10 @@
         android:layout_height="1dp"
         android:background="@android:color/black"
         android:id="@+id/line1"
-        android:layout_below="@+id/tvName"
+        android:layout_below="@+id/tvBloodGroup"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
         android:layout_toLeftOf="@+id/ibProfile"
         android:layout_toStartOf="@+id/ibProfile" />
 
@@ -211,7 +213,7 @@
         android:background="#FFF"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/ibLogout"
-        android:layout_marginRight="7dp"
+        android:layout_marginRight="15dp"
         android:layout_toStartOf="@+id/ibLogout" />
 
 </RelativeLayout>

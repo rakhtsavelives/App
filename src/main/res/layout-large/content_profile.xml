@@ -17,7 +17,10 @@
         android:id="@+id/tvName"
         android:textSize="25dp"
         android:layout_alignBottom="@+id/tvBloodGroup"
-        android:layout_centerHorizontal="true" />
+        android:layout_toRightOf="@+id/tvBloodGroup"
+        android:layout_toEndOf="@+id/tvBloodGroup"
+        android:layout_marginLeft="63dp"
+        android:layout_marginStart="63dp" />
 
     <ImageButton
         android:layout_width="150dp"
@@ -221,6 +224,6 @@
         android:background="#FFF"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/ibLogout"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="20dp"
         android:layout_toStartOf="@+id/ibLogout" />
 </RelativeLayout>

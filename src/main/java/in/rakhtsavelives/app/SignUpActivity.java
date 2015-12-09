@@ -8,11 +8,13 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +42,8 @@ import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
@@ -65,6 +69,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     String useremail,userpass,userfname,usercpass,userlname,userdob,useradd1,useradd2,userstate,
             usercity,userbg,userphone;
     ParseFile pf=null;
+    Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -243,12 +248,12 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         }
     }
     protected void signUp() {
-        Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+        //Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
         byte[] image = stream.toByteArray();
         pf=new ParseFile(userfname+"_"+userlname+".png",image);
-        Log.d(TAG,"Upload Started");
+        Log.d(TAG, "Upload Started");
         pf.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -315,20 +320,69 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-            Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picturePath = cursor.getString(columnIndex);
             cursor.close();
-            Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
-            ByteArrayOutputStream stream=new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            bitmap=Bitmap.createScaledBitmap(bitmap, ibChooseProfilePic.getWidth(), ibChooseProfilePic.getWidth(), false);
-            bitmap=getCroppedBitmap(bitmap);
-            ibChooseProfilePic.setImageBitmap(Bitmap.createScaledBitmap(bitmap,110,110,false));
+            try {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 8;
+                //
+                final Matrix matrix = new Matrix();;
+                bitmap =BitmapFactory.decodeFile(picturePath,options); //decodeAndResizeFile(new File(picturePath));
+                try {
+                    ExifInterface exif = new ExifInterface(picturePath);
+                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+                    Log.d("EXIF", "Exif: " + orientation);
+                    if (orientation == 6) {
+                        matrix.postRotate(90);
+                    } else if (orientation == 3) {
+                        matrix.postRotate(180);
+                    } else if (orientation == 8) {
+                        matrix.postRotate(270);
+                    }
+                }
+                catch (Exception e){
+                    Log.e(TAG,e.toString()+" at "+e.getCause());
+                }
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                bitmap = Bitmap.createScaledBitmap(bitmap, ibChooseProfilePic.getWidth(), ibChooseProfilePic.getWidth(), false);
+                bitmap = getCroppedBitmap(bitmap);
+                bitmap = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
+                ibChooseProfilePic.setImageBitmap(bitmap);
+            }
+            catch (Exception e){
+                Log.e(TAG,e.toString()+" at "+e.getCause());
+                Toast.makeText(context,e.toString()+"\nImage is to big\nPlease choose small Image",Toast.LENGTH_LONG).show();
+            }
 
         }
+    }
+    public Bitmap decodeAndResizeFile(File f) {
+        try {
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
+            final int REQUIRED_SIZE = 70;
+            int width_tmp = o.outWidth, height_tmp = o.outHeight;
+            int scale = 1;
+            while (true) {
+                if (width_tmp / 2 < REQUIRED_SIZE|| height_tmp / 2 < REQUIRED_SIZE)
+                    break;
+                width_tmp /= 2;
+                height_tmp /= 2;
+                scale *= 2;
+            }
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+        } catch (Exception e) {
+            Log.e(TAG,e.toString()+" at "+e.getCause());
+        }
+        return null;
     }
     public Bitmap getCroppedBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
