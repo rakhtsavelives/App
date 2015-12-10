@@ -8,10 +8,13 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.opengl.EGLExt;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,12 +33,13 @@ public class ProfileActivity extends AppCompatActivity {
     EditText etDOB,etPhone,etAdd1,etAdd2,etCity,etState;
     ImageButton ibProfile,ibLogout,ibEdit;
     Button btnProfileUpdate;
-    String name,bg,dob,phone,add1,add2,city,state;
+    String name,bg,dob,phone,add1,add2,city,state,email;
     int heightOfBitmap,widthOfBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         tvName=(TextView)findViewById(R.id.tvName);
         tvBG=(TextView)findViewById(R.id.tvBloodGroup);
@@ -54,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
         heightOfBitmap=ibProfile.getHeight();
         widthOfBitmap=ibProfile.getWidth();
         if(heightOfBitmap <= 0 || widthOfBitmap<=0 ){
-            heightOfBitmap=100;
+            heightOfBitmap = 100;
             widthOfBitmap=100;
         }
 
@@ -62,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         ParseUser user=ParseUser.getCurrentUser();
 
+        email=user.getUsername();
         name=user.get("First_Name")+" "+user.get("Last_Name");
         bg=(String)user.get("BG");
         dob=(String)user.get("DOB");
@@ -85,6 +90,8 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Snackbar.make(findViewById(android.R.id.content), "Logged in as " +email,Snackbar.LENGTH_SHORT).show();
 
         tvName.setText(name);
         tvBG.setText(bg);

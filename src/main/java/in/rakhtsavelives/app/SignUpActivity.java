@@ -2,6 +2,7 @@ package in.rakhtsavelives.app;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -70,6 +71,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             usercity,userbg,userphone;
     ParseFile pf=null;
     Bitmap bitmap;
+    ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +90,12 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         STATE=new ArrayList();
         CITY=new ArrayList();
         BG=new ArrayList();
+
+        dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Uploading Image and Creating Account.\n Please wait...");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
 
         etEmailSignUp=(EditText)findViewById(R.id.etEmailSignUp);
         etPassSignUp=(EditText)findViewById(R.id.etPassSignUp);
@@ -212,6 +220,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if(e == null){
+                    CITY.clear();
                     for(int i=0;i<objects.size();i++){
                         parseObject=objects.get(i);
                         try {
@@ -249,6 +258,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     }
     protected void signUp() {
         //Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+        dialog.show();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
         byte[] image = stream.toByteArray();
@@ -292,6 +302,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                             "Account is Created, please Fill Medical Details.",
                             Toast.LENGTH_LONG).show();
                     startActivity(new Intent(context, MedicalDetailsActivity.class));
+                    dialog.dismiss();
                     finish();
                 } else {
                     Toast.makeText(context, "Sign up Error: " + e.getMessage(), Toast.LENGTH_LONG)
@@ -360,29 +371,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             }
 
         }
-    }
-    public Bitmap decodeAndResizeFile(File f) {
-        try {
-            BitmapFactory.Options o = new BitmapFactory.Options();
-            o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
-            final int REQUIRED_SIZE = 70;
-            int width_tmp = o.outWidth, height_tmp = o.outHeight;
-            int scale = 1;
-            while (true) {
-                if (width_tmp / 2 < REQUIRED_SIZE|| height_tmp / 2 < REQUIRED_SIZE)
-                    break;
-                width_tmp /= 2;
-                height_tmp /= 2;
-                scale *= 2;
-            }
-            BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize = scale;
-            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-        } catch (Exception e) {
-            Log.e(TAG,e.toString()+" at "+e.getCause());
-        }
-        return null;
     }
     public Bitmap getCroppedBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),

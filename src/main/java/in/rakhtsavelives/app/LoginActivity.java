@@ -1,5 +1,6 @@
 package in.rakhtsavelives.app;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText etEmail,etPass;
     TextView tvRegister;
     Context context;
+    ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +29,17 @@ public class LoginActivity extends AppCompatActivity {
         etPass=(EditText)findViewById(R.id.etPass);
         btnLogin=(Button)findViewById(R.id.btnLogin);
         tvRegister=(TextView)findViewById(R.id.tvRegister);
+        dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Trying to login. Please wait...");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
         btnLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 String email=etEmail.getText().toString();
                 String pass=etPass.getText().toString();
+                dialog.show();
                 login(email,pass);
             }
         });
@@ -53,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(email, pass,
                 new LogInCallback() {
                     public void done(ParseUser user, ParseException e) {
+                        dialog.dismiss();
                         if (user != null) {
                             Intent intent = new Intent(
                                     LoginActivity.this,
