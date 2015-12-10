@@ -61,12 +61,10 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(email, pass,
                 new LogInCallback() {
                     public void done(ParseUser user, ParseException e) {
-                        dialog.dismiss();
                         if (user != null) {
                             Intent intent = new Intent(
                                     LoginActivity.this,
-                                    ProfileActivity.class);
-                            intent.putExtra("user", user.getUsername());
+                                    TabActivity.class);
                             InitClass.updateParseInstallation(user);
                             subscribe();
                             startActivity(intent);
@@ -80,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                                     "No such user exist, please signup",
                                     Toast.LENGTH_LONG).show();
                         }
+                        dialog.dismiss();
                     }
                 });
     }

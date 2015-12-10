@@ -40,7 +40,7 @@ public class SplashActivity extends Activity{
         } else {
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
-                Intent intent = new Intent(SplashActivity.this, ProfileActivity.class);
+                Intent intent = new Intent(SplashActivity.this, TabActivity.class);
                 intent.putExtra("user", currentUser.getUsername());
                 startActivity(intent);
                 finish();
