@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     EditText etFName,etLName,etEmailSignUp,etPassSignUp,etCPass,etDOB,etAddress1,etAddress2,etPhone;
     Spinner spinState,spinCity,spinBG;
     ArrayAdapter stateAdapter,cityAdapter,bgAdapter;
+    RadioButton rbMale,rbFemale;
     String email,pass,dState,dCity,dBG,picturePath=null,TAG="Rakht";
     Button btnNext;
     ImageButton ibChooseProfilePic;
@@ -96,6 +98,9 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         dialog.setMessage("Uploading Image and Creating Account.\n Please wait...");
         dialog.setIndeterminate(true);
         dialog.setCanceledOnTouchOutside(false);
+
+        rbMale=(RadioButton)findViewById(R.id.rbMale);
+        rbFemale=(RadioButton)findViewById(R.id.rbFemale);
 
         etEmailSignUp=(EditText)findViewById(R.id.etEmailSignUp);
         etPassSignUp=(EditText)findViewById(R.id.etPassSignUp);
@@ -244,7 +249,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         if(useremail.isEmpty()|| userpass.isEmpty()|| userfname.isEmpty()|| userlname.isEmpty()
                 || userdob.isEmpty()|| useradd1.isEmpty()|| useradd2.isEmpty()|| userphone.isEmpty()
                 || userstate.equals(dState)||usercity.equals(dCity)||userbg.equals(dBG)
-                || picturePath==null){
+                || picturePath==null || (rbMale.isChecked()==false && rbFemale.isChecked()==false)){
             Toast.makeText(context,"Please Fill All Details",Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -282,6 +287,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     }
     private void saveToParse(){
+        String gender=rbMale.isChecked()?"Male":"Female";
         ParseUser user = new ParseUser();
         user.setUsername(useremail);
         user.setPassword(userpass);
@@ -291,10 +297,11 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         user.put("Address1",useradd1);
         user.put("Address2",useradd2);
         user.put("State",userstate);
-        user.put("City",usercity);
+        user.put("City", usercity);
         user.put("BG", userbg);
         user.put("Phone",Long.parseLong(userphone));
         user.put("ProfilePic", pf);
+        user.put("Gender",gender);
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
@@ -339,10 +346,10 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             cursor.close();
             try {
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 8;
-                //
+                options.inJustDecodeBounds=true;
                 final Matrix matrix = new Matrix();;
-                bitmap =BitmapFactory.decodeFile(picturePath,options); //decodeAndResizeFile(new File(picturePath));
+                bitmap =BitmapFactory.decodeFile(picturePath, options);
+                options.inSampleSize=calculateInSampleSize(options,200,200);
                 try {
                     ExifInterface exif = new ExifInterface(picturePath);
                     int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
@@ -358,6 +365,9 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 catch (Exception e){
                     Log.e(TAG,e.toString()+" at "+e.getCause());
                 }
+
+                options.inJustDecodeBounds=false;
+                bitmap=BitmapFactory.decodeFile(picturePath,options);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 bitmap = Bitmap.createScaledBitmap(bitmap, ibChooseProfilePic.getWidth(), ibChooseProfilePic.getWidth(), false);
@@ -371,6 +381,24 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             }
 
         }
+    }
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
     public Bitmap getCroppedBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),

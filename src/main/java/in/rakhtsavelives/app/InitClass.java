@@ -20,7 +20,17 @@ public class InitClass extends Application {
             //Parse.initialize(this, "jqr2hzu7oRoJL4l3VP09HxcDl3R7kAhP0Cx4D1xx", "eBQOktkPcO42mvgUqdMP0gYlbuGSirxGkFL0EaiB");
             Parse.initialize(this, "AQSUIJWAVYLMoTIxt8TF7pbh5q1lSxapZgIbSrcP", "V5E4rRgFmibNvlvvNFeUHX7XHboOojzQ5umaMDjG");
             ParseUser.enableAutomaticUser();
-            ParseInstallation.getCurrentInstallation().saveInBackground();
+            ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+                @Override
+                public void done(com.parse.ParseException e) {
+                    if(e==null){
+                        Log.d("Rakht","Installation Saved Sucessfully");
+                    }
+                    else{
+                        Log.e("Rakht",e.getMessage());
+                    }
+                }
+            });
             ParseACL defaultACL = new ParseACL();
             defaultACL.setPublicReadAccess(true);
             ParseACL.setDefaultACL(defaultACL, true);

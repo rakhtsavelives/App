@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister=(TextView)findViewById(R.id.tvRegister);
         dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("Trying to login. Please wait...");
+        dialog.setMessage("Please wait...");
         dialog.setIndeterminate(true);
         dialog.setCanceledOnTouchOutside(false);
         btnLogin.setOnClickListener(new View.OnClickListener(){

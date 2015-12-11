@@ -1,4 +1,5 @@
 package in.rakhtsavelives.app;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -28,12 +30,14 @@ import com.parse.SaveCallback;
 
 public class ProfileFragment extends Fragment {
     TextView tvName,tvBG;
-    EditText etDOB,etPhone,etAdd1,etAdd2,etCity,etState;
+    EditText etDOB,etPhone,etAdd1,etAdd2,etCity,etState,etGender;
     ImageButton ibProfile,ibEdit;
     Button btnProfileUpdate;
-    String name,bg,dob,phone,add1,add2,city,state,email;
+    String name,bg,dob,phone,add1,add2,city,state,email,gender;
     int heightOfBitmap,widthOfBitmap;
     View rootView;
+    ProgressDialog dialog;
+    ParseUser user;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,7 +48,11 @@ public class ProfileFragment extends Fragment {
         int screenSize = getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK;
 
-
+        dialog = new ProgressDialog(getContext());
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Updating\n Please wait...");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
         tvName=(TextView)rootView.findViewById(R.id.tvName);
         tvBG=(TextView)rootView.findViewById(R.id.tvBloodGroup);
 
@@ -54,6 +62,7 @@ public class ProfileFragment extends Fragment {
         etAdd2=(EditText)rootView.findViewById(R.id.etProfileAddress2);
         etCity=(EditText)rootView.findViewById(R.id.etProfileCity);
         etState=(EditText)rootView.findViewById(R.id.etProfileState);
+        etGender=(EditText)rootView.findViewById(R.id.etProfileGender);
 
         ibProfile=(ImageButton)rootView.findViewById(R.id.ibProfile);
         ibEdit=(ImageButton)rootView.findViewById(R.id.ibEdit);
@@ -74,7 +83,7 @@ public class ProfileFragment extends Fragment {
 
         btnProfileUpdate=(Button)rootView.findViewById(R.id.btnProfileUpdate);
 
-        ParseUser user=ParseUser.getCurrentUser();
+        user=ParseUser.getCurrentUser();
 
         email=user.getUsername();
         name=user.get("First_Name")+" "+user.get("Last_Name");
@@ -85,6 +94,7 @@ public class ProfileFragment extends Fragment {
         add2=(String)user.get("Address2");
         city=(String)user.get("City");
         state=(String)user.get("State");
+        gender=(String)user.get("Gender");
         ParseFile pf=user.getParseFile("ProfilePic");
         pf.getDataInBackground(new GetDataCallback() {
             @Override
@@ -101,8 +111,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
-
         tvName.setText(name);
         tvBG.setText(bg);
         etDOB.setText(dob);
@@ -111,11 +119,11 @@ public class ProfileFragment extends Fragment {
         etAdd2.setText(add2);
         etCity.setText(city);
         etState.setText(state);
+        etGender.setText(gender);
 
         ibEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                etDOB.setEnabled(true);
                 etPhone.setEnabled(true);
                 etAdd1.setEnabled(true);
                 etAdd2.setEnabled(true);
@@ -134,7 +142,30 @@ public class ProfileFragment extends Fragment {
         btnProfileUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dialog.show();
+                user.put("Address1",etAdd1.getText().toString());
+                user.put("Address2",etAdd2.getText().toString());
+                user.put("State",etState.getText().toString());
+                user.put("City",etCity.getText().toString());
+                user.put("Phone",Long.parseLong(etPhone.getText().toString()));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e==null) {
+                            Toast.makeText(getContext(), "Update Sucessful", Toast.LENGTH_SHORT).show();
+                            etPhone.setEnabled(false);
+                            etAdd1.setEnabled(false);
+                            etAdd2.setEnabled(false);
+                            etCity.setEnabled(false);
+                            etState.setEnabled(false);
+                            dialog.dismiss();
+                        }
+                        else{
+                            Log.e("Rakht", e.getMessage());
+                            Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
             }
         });
 

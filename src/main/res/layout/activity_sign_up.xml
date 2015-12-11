@@ -152,7 +152,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Blood Group :"
             android:id="@+id/tvBG"
-            android:layout_below="@+id/tvDOB"
+            android:layout_below="@+id/rbGroup"
             android:layout_marginTop="35dp"
             android:layout_marginLeft="5dp"/>
         <Spinner
@@ -161,7 +161,7 @@
             android:id="@+id/spinBG"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tvDOB"
+            android:layout_below="@+id/rbGroup"
             android:spinnerMode="dropdown"
             android:layout_marginTop="30dp"
             android:layout_toRightOf="@+id/tvBG"
@@ -214,6 +214,38 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbGroup"
+            android:layout_below="@id/tvDOB"
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="100dp"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male"
+                android:id="@+id/rbMale" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/rbFemale" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Gender :"
+            android:id="@+id/tvGender"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@+id/tvDOB"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
 
     </RelativeLayout>
