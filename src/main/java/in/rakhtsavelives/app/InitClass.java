@@ -29,7 +29,8 @@ public class InitClass extends Application {
             @Override
             public void done(com.parse.ParseException e) {
                 if (e == null) {
-                    Log.d("Rakht", "Installation Saved Successfully");
+                    Log.d("Rakht", "Insta" +
+                            "llation Saved Successfully");
                 } else {
                     Log.e("Rakht", e.getMessage());
                 }

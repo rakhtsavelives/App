@@ -99,6 +99,16 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
     }
 
     protected void unSubscribe(){
+        ParsePush.unsubscribeInBackground("Donner", new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.d("Rakht_DEBUG:", "successfully unsubscribed to the broadcast channel.");
+                } else {
+                    Log.e("Rakht_ERROR:", "failed to unsubscribe for push", e);
+                }
+            }
+        });
         ParsePush.unsubscribeInBackground("loggedIN", new SaveCallback() {
             @Override
             public void done(ParseException e) {

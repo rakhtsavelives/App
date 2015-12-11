@@ -9,4 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Emergency Tab" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibEmergency"
+        android:src="@drawable/icon_blood_64"
+        android:background="#FFF"
+        android:layout_gravity="center" />
 </FrameLayout>

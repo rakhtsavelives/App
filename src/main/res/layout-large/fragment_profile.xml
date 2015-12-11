@@ -116,6 +116,24 @@
                     android:layout_height="match_parent"
                     android:padding="10dp">
                     <TextView
+                        android:textSize="25dp"
+                        android:text="Weight : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:gravity="right"/>
+                    <EditText
+                        android:id="@+id/etProfileWeight"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2"
+                        android:enabled="false"/>
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+                    <TextView
                         android:text="Phone No : "
                         android:layout_width="wrap_content"
                         android:textSize="25dp"

@@ -57,7 +57,8 @@ import java.util.logging.StreamHandler;
 
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText etFName,etLName,etEmailSignUp,etPassSignUp,etCPass,etDOB,etAddress1,etAddress2,etPhone;
+    EditText etFName,etLName,etEmailSignUp,etPassSignUp,
+            etCPass,etDOB,etAddress1,etAddress2,etPhone,etWeight;
     Spinner spinState,spinCity,spinBG;
     ArrayAdapter stateAdapter,cityAdapter,bgAdapter;
     RadioButton rbMale,rbFemale;
@@ -70,7 +71,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     ParseObject parseObject;
     private static int RESULT_LOAD_IMAGE = 1,RESULT_CROP_IMAGE=2;
     String useremail,userpass,userfname,usercpass,userlname,userdob,useradd1,useradd2,userstate,
-            usercity,userbg,userphone;
+            usercity,userbg,userphone,userweight;
     ParseFile pf=null;
     Bitmap bitmap;
     ProgressDialog dialog;
@@ -111,6 +112,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         etAddress1=(EditText)findViewById(R.id.etAddress1);
         etAddress2=(EditText)findViewById(R.id.etAddress2);
         etPhone=(EditText)findViewById(R.id.etPhone);
+        etWeight=(EditText)findViewById(R.id.etWeight);
 
         etEmailSignUp.setText(email);
         etPassSignUp.setText(pass);
@@ -159,6 +161,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 usercity=spinCity.getSelectedItem().toString();
                 userbg=spinBG.getSelectedItem().toString();
                 userphone=etPhone.getText().toString();
+                userweight=etWeight.getText().toString();
                 if(checkInputes()) {
                     signUp();
                 }
@@ -248,7 +251,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     protected boolean checkInputes(){
         if(useremail.isEmpty()|| userpass.isEmpty()|| userfname.isEmpty()|| userlname.isEmpty()
                 || userdob.isEmpty()|| useradd1.isEmpty()|| useradd2.isEmpty()|| userphone.isEmpty()
-                || userstate.equals(dState)||usercity.equals(dCity)||userbg.equals(dBG)
+                || userstate.equals(dState)||usercity.equals(dCity)||userbg.equals(dBG)||userweight.isEmpty()
                 || picturePath==null || (rbMale.isChecked()==false && rbFemale.isChecked()==false)){
             Toast.makeText(context,"Please Fill All Details",Toast.LENGTH_SHORT).show();
             return false;
@@ -303,6 +306,10 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         user.put("ProfilePic", pf);
         user.put("Gender",gender);
         user.put("Age",getAge(userdob));
+        user.put("Weight", userweight);
+        if(Integer.parseInt(userweight)<50 || Integer.parseInt(getAge(userdob))<17)
+            user.put("CanDonate",false);
+        else user.put("CanDonate",true);
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
@@ -418,7 +425,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
     }
-    private String getAge(String DOB){
+    public String getAge(String DOB){
         Calendar dob = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
         int year,month,day;

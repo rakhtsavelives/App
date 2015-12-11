@@ -152,7 +152,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Blood Group :"
             android:id="@+id/tvBG"
-            android:layout_below="@+id/rbGroup"
+            android:layout_below="@+id/tvWeight"
             android:layout_marginTop="35dp"
             android:layout_marginLeft="5dp"/>
         <Spinner
@@ -161,7 +161,7 @@
             android:id="@+id/spinBG"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/rbGroup"
+            android:layout_below="@+id/tvWeight"
             android:spinnerMode="dropdown"
             android:layout_marginTop="30dp"
             android:layout_toRightOf="@+id/tvBG"
@@ -247,7 +247,36 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weight :"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="35dp"
+            android:id="@+id/tvWeight"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@id/tvGender"/>
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/etWeight"
+            android:layout_below="@id/tvGender"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tvBG"
+            android:layout_alignRight="@+id/rbGroup"
+            android:layout_alignEnd="@+id/rbGroup" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_height="wrap_content"
+            android:text="KG"
+            android:layout_above="@+id/spinBG"
+            android:layout_toRightOf="@+id/etWeight"
+            android:layout_toEndOf="@+id/etWeight" />
     </RelativeLayout>
 
 </ScrollView>
