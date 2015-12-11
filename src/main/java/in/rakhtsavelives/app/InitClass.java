@@ -3,7 +3,12 @@ package in.rakhtsavelives.app;
 import android.app.Application;
 import android.util.Log;
 
-import com.parse.*;
+
+import com.parse.Parse;
+import com.parse.ParseACL;
+import com.parse.ParseInstallation;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.text.ParseException;
 
@@ -17,27 +22,36 @@ public class InitClass extends Application {
         initParse();
     }
     private void initParse(){
-            //Parse.initialize(this, "jqr2hzu7oRoJL4l3VP09HxcDl3R7kAhP0Cx4D1xx", "eBQOktkPcO42mvgUqdMP0gYlbuGSirxGkFL0EaiB");
-            Parse.initialize(this, "AQSUIJWAVYLMoTIxt8TF7pbh5q1lSxapZgIbSrcP", "V5E4rRgFmibNvlvvNFeUHX7XHboOojzQ5umaMDjG");
-            ParseUser.enableAutomaticUser();
-            ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
-                @Override
-                public void done(com.parse.ParseException e) {
-                    if(e==null){
-                        Log.d("Rakht","Installation Saved Sucessfully");
-                    }
-                    else{
-                        Log.e("Rakht",e.getMessage());
-                    }
+        Parse.initialize(this, "AQSUIJWAVYLMoTIxt8TF7pbh5q1lSxapZgIbSrcP", "V5E4rRgFmibNvlvvNFeUHX7XHboOojzQ5umaMDjG");
+        ParseUser.enableAutomaticUser();
+        ParseInstallation currInstallation=ParseInstallation.getCurrentInstallation();
+        currInstallation.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(com.parse.ParseException e) {
+                if (e == null) {
+                    Log.d("Rakht", "Installation Saved Successfully");
+                } else {
+                    Log.e("Rakht", e.getMessage());
                 }
-            });
-            ParseACL defaultACL = new ParseACL();
-            defaultACL.setPublicReadAccess(true);
-            ParseACL.setDefaultACL(defaultACL, true);
+            }
+        });
+        ParseACL defaultACL = new ParseACL();
+        defaultACL.setPublicReadAccess(true);
+        ParseACL.setDefaultACL(defaultACL, true);
     }
     public static void updateParseInstallation(ParseUser user) {
         ParseInstallation installation = ParseInstallation.getCurrentInstallation();
         installation.put("userId", user.getObjectId());
-        installation.saveInBackground();
+        installation.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(com.parse.ParseException e) {
+                if(e==null){
+                    Log.d("Rakht","Installation Updated Successfully");
+                }
+                else{
+                    Log.e("Rakht",e.getMessage());
+                }
+            }
+        });
     }
 }

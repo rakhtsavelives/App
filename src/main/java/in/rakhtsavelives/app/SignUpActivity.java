@@ -288,7 +288,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     }
     private void saveToParse(){
         String gender=rbMale.isChecked()?"Male":"Female";
-        ParseUser user = new ParseUser();
+        final ParseUser user = new ParseUser();
         user.setUsername(useremail);
         user.setPassword(userpass);
         user.put("First_Name", userfname);
@@ -308,6 +308,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                     Toast.makeText(context,
                             "Account is Created, please Fill Medical Details.",
                             Toast.LENGTH_LONG).show();
+                    InitClass.updateParseInstallation(user);
                     startActivity(new Intent(context, MedicalDetailsActivity.class));
                     dialog.dismiss();
                     finish();
