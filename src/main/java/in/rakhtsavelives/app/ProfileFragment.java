@@ -33,7 +33,7 @@ public class ProfileFragment extends Fragment {
     EditText etDOB,etPhone,etAdd1,etAdd2,etCity,etState,etGender;
     ImageButton ibProfile,ibEdit;
     Button btnProfileUpdate;
-    String name,bg,dob,phone,add1,add2,city,state,email,gender;
+    String name,bg,dob,phone,add1,add2,city,state,email,gender,age;
     int heightOfBitmap,widthOfBitmap;
     View rootView;
     ProgressDialog dialog;
@@ -95,6 +95,7 @@ public class ProfileFragment extends Fragment {
         city=(String)user.get("City");
         state=(String)user.get("State");
         gender=(String)user.get("Gender");
+        age=(String)user.get("Age");
         ParseFile pf=user.getParseFile("ProfilePic");
         pf.getDataInBackground(new GetDataCallback() {
             @Override
@@ -113,7 +114,7 @@ public class ProfileFragment extends Fragment {
 
         tvName.setText(name);
         tvBG.setText(bg);
-        etDOB.setText(dob);
+        etDOB.setText(dob+" ("+age+" Years)");
         etPhone.setText(phone);
         etAdd1.setText(add1);
         etAdd2.setText(add2);

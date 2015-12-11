@@ -424,7 +424,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         int year,month,day;
         day=Integer.parseInt(DOB.substring(0,2));
         month=Integer.parseInt(DOB.substring(3,5));
-        year=Integer.parseInt(DOB.substring(7, 11));
+        year=Integer.parseInt(DOB.substring(6, 10));
         dob.set(year, month, day);
         int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
         if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
