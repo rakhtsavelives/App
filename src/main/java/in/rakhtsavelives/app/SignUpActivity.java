@@ -302,6 +302,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         user.put("Phone",Long.parseLong(userphone));
         user.put("ProfilePic", pf);
         user.put("Gender",gender);
+        user.put("Age",getAge(userdob));
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
@@ -416,5 +417,19 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
+    }
+    private String getAge(String DOB){
+        Calendar dob = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+        int year,month,day;
+        day=Integer.parseInt(DOB.substring(0,2));
+        month=Integer.parseInt(DOB.substring(3,5));
+        year=Integer.parseInt(DOB.substring(7, 11));
+        dob.set(year, month, day);
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
+            age--;
+        }
+        return age+"";
     }
 }
