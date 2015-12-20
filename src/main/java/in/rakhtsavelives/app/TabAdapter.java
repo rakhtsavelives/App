@@ -3,6 +3,7 @@ package in.rakhtsavelives.app;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
 public class TabAdapter extends FragmentPagerAdapter {
     public TabAdapter(FragmentManager fm) {
         super(fm);

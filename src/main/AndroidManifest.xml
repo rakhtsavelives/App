@@ -68,10 +68,10 @@
         <activity
             android:name=".TabActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".NotificationActivity"
-            android:launchMode="singleInstance"
-            android:excludeFromRecents="true"
-            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
+        <activity
+            android:name=".NotificationActivity"
+            android:launchMode="singleInstance" />
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

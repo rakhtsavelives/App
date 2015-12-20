@@ -4,18 +4,44 @@
     android:layout_height="match_parent"
     tools:context=".EmergencyFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Emergency Tab" />
-
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ibEmergency"
-        android:src="@drawable/icon_blood_64"
-        android:background="#FFF"
+    <android.support.design.widget.FloatingActionButton
+        android:layout_height="229dp"
+        android:layout_width="242dp"
+        android:theme="@style/FAB"
+        android:id="@+id/fabEmergency"
+        android:layout_marginLeft="100dp"
+        android:src="@drawable/icon_emergency_128"
         android:layout_gravity="center" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_height="132dp"
+        android:layout_width="156dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginLeft="25dp"
+        android:theme="@style/FAB"
+        android:id="@+id/fabSearch"
+        android:src="@drawable/icon_search_128"
+        android:layout_gravity="center_horizontal|top" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_height="132dp"
+        android:layout_width="156dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="75dp"
+        android:theme="@style/FAB"
+        android:id="@+id/fabAboutUs"
+        android:layout_marginBottom="75dp"
+        android:src="@drawable/icon_aboutus_128"
+        android:layout_gravity="center_horizontal|bottom" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_height="132dp"
+        android:layout_width="156dp"
+        android:layout_marginTop="75dp"
+        android:id="@+id/fabFAQ"
+        android:theme="@style/FAB"
+        android:layout_marginLeft="75dp"
+        android:layout_marginBottom="75dp"
+        android:src="@drawable/icon_faq_128"
+        android:layout_gravity="left|center_vertical" />
 </FrameLayout>

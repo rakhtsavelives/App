@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -39,13 +40,25 @@ public class ProfileFragment extends Fragment {
     View rootView;
     ProgressDialog dialog;
     ParseUser user;
+    ParseInstallation installation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_profile, container, false);
-        //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        installation = ParseInstallation.getCurrentInstallation();
+        installation.put("user", ParseUser.getCurrentUser());
+        installation.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null)
+                    Log.d(InitClass.TAG, "User Associated with Installation");
+                else
+                    Log.e(InitClass.TAG, e.getMessage());
+            }
+        });
 
         int screenSize = getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK;
@@ -87,7 +100,6 @@ public class ProfileFragment extends Fragment {
         btnProfileUpdate = (Button) rootView.findViewById(R.id.btnProfileUpdate);
 
         user = ParseUser.getCurrentUser();
-
         email = user.getUsername();
         name = user.get("First_Name") + " " + user.get("Last_Name");
         bg = (String) user.get("BG");
@@ -107,13 +119,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void done(byte[] data, ParseException e) {
                 if (e == null) {
-                    Log.d("test", "We've got data in data.");
+                    Log.d(InitClass.TAG, "We've got data in data.");
                     Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
                     bmp = Bitmap.createScaledBitmap(bmp, widthOfBitmap, heightOfBitmap, false);
                     bmp = getCroppedBitmap(bmp);
                     ibProfile.setImageBitmap(bmp);
                 } else {
-                    Log.d("test", "There was a problem downloading the data.");
+                    Log.d(InitClass.TAG, "There was a problem downloading the data.");
                 }
             }
         });
@@ -175,7 +187,7 @@ public class ProfileFragment extends Fragment {
                             btnProfileUpdate.setVisibility(View.INVISIBLE);
                             dialog.dismiss();
                         } else {
-                            Log.e("Rakht", e.getMessage());
+                            Log.e(InitClass.TAG, e.getMessage());
                             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }

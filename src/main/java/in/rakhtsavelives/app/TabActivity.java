@@ -1,10 +1,11 @@
 package in.rakhtsavelives.app;
+
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +21,7 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
     private ViewPager viewPager;
     private TabAdapter mAdapter;
     private ActionBar actionBar;
-    private String[] tabs = { "Emergency", "Profile"};
+    private String[] tabs = {"Emergency", "Profile"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
             }
         });
     }
+
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         viewPager.setCurrentItem(tab.getPosition());
@@ -75,14 +77,14 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id=item.getItemId();
-        switch (id){
+        int id = item.getItemId();
+        switch (id) {
             case R.id.action_logout:
                 logout();
                 return true;
@@ -90,7 +92,8 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
                 return false;
         }
     }
-    private void logout(){
+
+    private void logout() {
         ParseUser.logOutInBackground();
         Intent i1 = new Intent(getApplicationContext(), LoginActivity.class);
         unSubscribe();
@@ -98,14 +101,14 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
         finish();
     }
 
-    protected void unSubscribe(){
+    protected void unSubscribe() {
         ParsePush.unsubscribeInBackground("Donner", new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Log.d("Rakht_DEBUG:", "successfully unsubscribed to the broadcast channel.");
+                    Log.d(InitClass.TAG, "successfully unsubscribed to the broadcast channel.");
                 } else {
-                    Log.e("Rakht_ERROR:", "failed to unsubscribe for push", e);
+                    Log.e(InitClass.TAG, "failed to unsubscribe for push", e);
                 }
             }
         });
@@ -113,9 +116,9 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Log.d("Rakht_DEBUG:", "successfully unsubscribed to the broadcast channel.");
+                    Log.d(InitClass.TAG, "successfully unsubscribed to the broadcast channel.");
                 } else {
-                    Log.e("Rakht_ERROR:", "failed to unsubscribe for push", e);
+                    Log.e(InitClass.TAG, "failed to unsubscribe for push", e);
                 }
             }
         });

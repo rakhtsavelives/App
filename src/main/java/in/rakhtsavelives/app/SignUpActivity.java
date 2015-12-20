@@ -1,7 +1,5 @@
 package in.rakhtsavelives.app;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -11,386 +9,56 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.ProgressCallback;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.StreamHandler;
 
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText etFName,etLName,etEmailSignUp,etPassSignUp,
-            etCPass,etDOB,etAddress1,etAddress2,etPhone,etWeight;
-    Spinner spinState,spinCity,spinBG;
-    ArrayAdapter stateAdapter,cityAdapter,bgAdapter;
-    RadioButton rbMale,rbFemale;
-    String email,pass,dState,dCity,dBG,picturePath=null,TAG="Rakht";
+    private static int RESULT_LOAD_IMAGE = 1;
+    EditText etFName, etLName, etEmailSignUp, etPassSignUp,
+            etCPass, etDOB, etAddress1, etAddress2, etPhone, etWeight;
+    Spinner spinState, spinCity, spinBG;
+    ArrayAdapter stateAdapter, cityAdapter, bgAdapter;
+    RadioButton rbMale, rbFemale;
+    String email, pass, dState, dCity, dBG, picturePath = null;
     Button btnNext;
     ImageButton ibChooseProfilePic;
     Context context;
-    int day,month,year;
-    ArrayList<String> STATE,CITY,BG;
-    ParseObject parseObject;
-    private static int RESULT_LOAD_IMAGE = 1,RESULT_CROP_IMAGE=2;
-    String useremail,userpass,userfname,usercpass,userlname,userdob,useradd1,useradd2,userstate,
-            usercity,userbg,userphone,userweight;
-    ParseFile pf=null;
+    int day, month, year;
+    ArrayList<String> STATE, CITY, BG;
+    String useremail, userpass, userfname, usercpass, userlname, userdob, useradd1, useradd2, userstate,
+            usercity, userbg, userphone, userweight;
+    ParseFile pf = null;
     Bitmap bitmap;
     ProgressDialog dialog;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
-        Intent i=getIntent();
-        email=i.getStringExtra("email");
-        pass=i.getStringExtra("pass");
-        context=getApplicationContext();
-        day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+1;
-        month = Calendar.getInstance().get(Calendar.MONTH)+1;
-        year = Calendar.getInstance().get(Calendar.YEAR);
-        init(email,pass);
-    }
-    protected void init(String email,String pass){
 
-        STATE=new ArrayList();
-        CITY=new ArrayList();
-        BG=new ArrayList();
-
-        dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("Uploading Image and Creating Account.\n Please wait...");
-        dialog.setIndeterminate(true);
-        dialog.setCanceledOnTouchOutside(false);
-
-        rbMale=(RadioButton)findViewById(R.id.rbMale);
-        rbFemale=(RadioButton)findViewById(R.id.rbFemale);
-
-        etEmailSignUp=(EditText)findViewById(R.id.etEmailSignUp);
-        etPassSignUp=(EditText)findViewById(R.id.etPassSignUp);
-        etCPass=(EditText)findViewById(R.id.etCPass);
-        etFName=(EditText)findViewById(R.id.etFName);
-        etLName=(EditText)findViewById(R.id.etLName);
-        etDOB=(EditText)findViewById(R.id.etDOB);
-        etAddress1=(EditText)findViewById(R.id.etAddress1);
-        etAddress2=(EditText)findViewById(R.id.etAddress2);
-        etPhone=(EditText)findViewById(R.id.etPhone);
-        etWeight=(EditText)findViewById(R.id.etWeight);
-
-        etEmailSignUp.setText(email);
-        etPassSignUp.setText(pass);
-
-        spinState=(Spinner)findViewById(R.id.spinState);
-        stateAdapter=new ArrayAdapter(context,R.layout.spinner_item,STATE);
-
-        spinCity=(Spinner)findViewById(R.id.spinCity);
-        cityAdapter=new ArrayAdapter(context,R.layout.spinner_item,CITY);
-
-        spinBG=(Spinner)findViewById(R.id.spinBG);
-        bgAdapter=new ArrayAdapter(context,R.layout.spinner_item,BG);
-
-        spinState.setAdapter(stateAdapter);
-        spinCity.setAdapter(cityAdapter);
-        spinBG.setAdapter(bgAdapter);
-
-        spinState.setOnItemSelectedListener(this);
-        spinCity.setOnItemSelectedListener(this);
-
-        getState();
-        getBloodGroup();
-
-        ibChooseProfilePic=(ImageButton)findViewById(R.id.ibChooseProfilePic);
-        ibChooseProfilePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
-        });
-
-        btnNext=(Button)findViewById(R.id.btnNext);
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                useremail=etEmailSignUp.getText().toString();
-                userpass=etPassSignUp.getText().toString();
-                usercpass=etCPass.getText().toString();
-                userfname=etFName.getText().toString();
-                userlname=etLName.getText().toString();
-                userdob=etDOB.getText().toString();
-                useradd1=etAddress1.getText().toString();
-                useradd2=etAddress2.getText().toString();
-                userstate=spinState.getSelectedItem().toString();
-                usercity=spinCity.getSelectedItem().toString();
-                userbg=spinBG.getSelectedItem().toString();
-                userphone=etPhone.getText().toString();
-                userweight=etWeight.getText().toString();
-                if(checkInputes()) {
-                    signUp();
-                }
-            }
-        });
-    }
-    private void getBloodGroup(){
-        ParseQuery<ParseObject> query=new ParseQuery<ParseObject>("BloodGroup");
-        query.addAscendingOrder("ID");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if(e == null){
-                    for(int i=0;i<objects.size();i++){
-                        parseObject=objects.get(i);
-                        try {
-                            parseObject.fetch();
-                            BG.add((String) parseObject.get("BG"));
-                            if(i==0) dBG=(String) parseObject.get("BG");
-                        }
-                        catch (Exception ex){
-                            Log.e(TAG,ex.getMessage());
-                        }
-                    }
-                    bgAdapter.notifyDataSetChanged();
-                }
-                else{
-                    Log.e(TAG,e.getMessage());
-                }
-            }
-        });
-    }
-    private void getState(){
-        ParseQuery<ParseObject> query=new ParseQuery<ParseObject>("State");
-        query.addAscendingOrder("ID");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if(e == null){
-                    for(int i=0;i<objects.size();i++){
-                        parseObject=objects.get(i);
-                        try {
-                            parseObject.fetch();
-                            STATE.add((String) parseObject.get("State"));
-                            if(i==0) dState=(String) parseObject.get("State");
-                        }
-                        catch (Exception ex){
-                            Log.e(TAG,ex.getMessage());
-                        }
-                    }
-                    stateAdapter.notifyDataSetChanged();
-                }
-                else{
-                    Log.e(TAG,e.getMessage());
-                }
-            }
-        });
-    }
-    private void getCity(String state){
-        ParseQuery<ParseObject> query=new ParseQuery<ParseObject>("City");
-        query.addAscendingOrder("ID");
-        query.whereEqualTo("State", state);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if(e == null){
-                    CITY.clear();
-                    for(int i=0;i<objects.size();i++){
-                        parseObject=objects.get(i);
-                        try {
-                            parseObject.fetch();
-                            CITY.add((String) parseObject.get("City"));
-                            if(i==0) dCity=(String) parseObject.get("City");
-                        }
-                        catch (Exception ex){
-                            Log.e(TAG,ex.getMessage());
-                        }
-                    }
-                    cityAdapter.notifyDataSetChanged();
-                }
-                else{
-                    Log.e(TAG,e.getMessage());
-                }
-            }
-        });
-    }
-    protected boolean checkInputes(){
-        if(useremail.isEmpty()|| userpass.isEmpty()|| userfname.isEmpty()|| userlname.isEmpty()
-                || userdob.isEmpty()|| useradd1.isEmpty()|| useradd2.isEmpty()|| userphone.isEmpty()
-                || userstate.equals(dState)||usercity.equals(dCity)||userbg.equals(dBG)||userweight.isEmpty()
-                || picturePath==null || (rbMale.isChecked()==false && rbFemale.isChecked()==false)){
-            Toast.makeText(context,"Please Fill All Details",Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        else {
-            if (userpass.equals(usercpass)) return true;
-            else {
-                Toast.makeText(context, "Passwords don't Match", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        }
-    }
-    protected void signUp() {
-        //Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
-        dialog.show();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
-        byte[] image = stream.toByteArray();
-        pf=new ParseFile(userfname+"_"+userlname+".png",image);
-        Log.d(TAG, "Upload Started");
-        pf.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Log.d(TAG, "Upload Complete");
-                    Log.d(TAG, pf.getUrl());
-                    saveToParse();
-                }
-            }
-        }, new ProgressCallback() {
-            @Override
-            public void done(Integer percentDone) {
-                Log.d(TAG, percentDone + "% done");
-            }
-        });
-
-    }
-    private void saveToParse(){
-        String gender=rbMale.isChecked()?"Male":"Female";
-        final ParseUser user = new ParseUser();
-        user.setUsername(useremail);
-        user.setPassword(userpass);
-        user.put("First_Name", userfname);
-        user.put("Last_Name", userlname);
-        user.put("DOB",userdob);
-        user.put("Address1",useradd1);
-        user.put("Address2",useradd2);
-        user.put("State",userstate);
-        user.put("City", usercity);
-        user.put("BG", userbg);
-        user.put("Phone",Long.parseLong(userphone));
-        user.put("ProfilePic", pf);
-        user.put("Gender",gender);
-        user.put("Age",getAge(userdob));
-        user.put("Weight", userweight);
-        if(Integer.parseInt(userweight)<50 || Integer.parseInt(getAge(userdob))<17)
-            user.put("CanDonate",false);
-        else user.put("CanDonate",true);
-        user.signUpInBackground(new SignUpCallback() {
-            public void done(ParseException e) {
-                if (e == null) {
-                    Toast.makeText(context,
-                            "Account is Created, please Fill Medical Details.",
-                            Toast.LENGTH_LONG).show();
-                    InitClass.updateParseInstallation(user);
-                    startActivity(new Intent(context, MedicalDetailsActivity.class));
-                    dialog.dismiss();
-                    finish();
-                } else {
-                    Toast.makeText(context, "Sign up Error: " + e.getMessage(), Toast.LENGTH_LONG)
-                            .show();
-                    Log.e(TAG, e.toString());
-                }
-            }
-        });
-    }
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (parent == spinState) {
-            getCity(parent.getItemAtPosition(position).toString());
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            picturePath = cursor.getString(columnIndex);
-            cursor.close();
-            try {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds=true;
-                final Matrix matrix = new Matrix();;
-                bitmap =BitmapFactory.decodeFile(picturePath, options);
-                options.inSampleSize=calculateInSampleSize(options,200,200);
-                try {
-                    ExifInterface exif = new ExifInterface(picturePath);
-                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-                    Log.d("EXIF", "Exif: " + orientation);
-                    if (orientation == 6) {
-                        matrix.postRotate(90);
-                    } else if (orientation == 3) {
-                        matrix.postRotate(180);
-                    } else if (orientation == 8) {
-                        matrix.postRotate(270);
-                    }
-                }
-                catch (Exception e){
-                    Log.e(TAG,e.toString()+" at "+e.getCause());
-                }
-
-                options.inJustDecodeBounds=false;
-                bitmap=BitmapFactory.decodeFile(picturePath,options);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                bitmap = Bitmap.createScaledBitmap(bitmap, ibChooseProfilePic.getWidth(), ibChooseProfilePic.getWidth(), false);
-                bitmap = getCroppedBitmap(bitmap);
-                bitmap = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
-                ibChooseProfilePic.setImageBitmap(bitmap);
-            }
-            catch (Exception e){
-                Log.e(TAG,e.toString()+" at "+e.getCause());
-                Toast.makeText(context,e.toString()+"\nImage is to big\nPlease choose small Image",Toast.LENGTH_LONG).show();
-            }
-
-        }
-    }
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int height = options.outHeight;
@@ -409,6 +77,247 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         return inSampleSize;
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_up);
+        Intent i = getIntent();
+        email = i.getStringExtra("email");
+        pass = i.getStringExtra("pass");
+        context = getApplicationContext();
+        day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + 1;
+        month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        year = Calendar.getInstance().get(Calendar.YEAR);
+        init(email, pass);
+    }
+
+    protected void init(String email, String pass) {
+
+        STATE = new ArrayList();
+        CITY = new ArrayList();
+        BG = new ArrayList();
+
+        dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Uploading Image and Creating Account.\n Please wait...");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
+
+        rbMale = (RadioButton) findViewById(R.id.rbMale);
+        rbFemale = (RadioButton) findViewById(R.id.rbFemale);
+
+        etEmailSignUp = (EditText) findViewById(R.id.etEmailSignUp);
+        etPassSignUp = (EditText) findViewById(R.id.etPassSignUp);
+        etCPass = (EditText) findViewById(R.id.etCPass);
+        etFName = (EditText) findViewById(R.id.etFName);
+        etLName = (EditText) findViewById(R.id.etLName);
+        etDOB = (EditText) findViewById(R.id.etDOB);
+        etAddress1 = (EditText) findViewById(R.id.etAddress1);
+        etAddress2 = (EditText) findViewById(R.id.etAddress2);
+        etPhone = (EditText) findViewById(R.id.etPhone);
+        etWeight = (EditText) findViewById(R.id.etWeight);
+
+        etEmailSignUp.setText(email);
+        etPassSignUp.setText(pass);
+
+        spinState = (Spinner) findViewById(R.id.spinState);
+        stateAdapter = new ArrayAdapter(context, R.layout.spinner_item, STATE);
+
+        spinCity = (Spinner) findViewById(R.id.spinCity);
+        cityAdapter = new ArrayAdapter(context, R.layout.spinner_item, CITY);
+
+        spinBG = (Spinner) findViewById(R.id.spinBG);
+        bgAdapter = new ArrayAdapter(context, R.layout.spinner_item, BG);
+
+        spinState.setAdapter(stateAdapter);
+        spinCity.setAdapter(cityAdapter);
+        spinBG.setAdapter(bgAdapter);
+
+        spinState.setOnItemSelectedListener(this);
+        spinCity.setOnItemSelectedListener(this);
+
+        dState = InitClass.getState(STATE, stateAdapter);
+        dBG = InitClass.getBloodGroup(BG, bgAdapter);
+
+        ibChooseProfilePic = (ImageButton) findViewById(R.id.ibChooseProfilePic);
+        ibChooseProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }
+        });
+
+        btnNext = (Button) findViewById(R.id.btnNext);
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                useremail = etEmailSignUp.getText().toString();
+                userpass = etPassSignUp.getText().toString();
+                usercpass = etCPass.getText().toString();
+                userfname = etFName.getText().toString();
+                userlname = etLName.getText().toString();
+                userdob = etDOB.getText().toString();
+                useradd1 = etAddress1.getText().toString();
+                useradd2 = etAddress2.getText().toString();
+                userstate = spinState.getSelectedItem().toString();
+                usercity = spinCity.getSelectedItem().toString();
+                userbg = spinBG.getSelectedItem().toString();
+                userphone = etPhone.getText().toString();
+                userweight = etWeight.getText().toString();
+                if (checkInputes()) {
+                    signUp();
+                }
+            }
+        });
+    }
+
+    protected boolean checkInputes() {
+        if (useremail.isEmpty() || userpass.isEmpty() || userfname.isEmpty() || userlname.isEmpty()
+                || userdob.isEmpty() || useradd1.isEmpty() || useradd2.isEmpty() || userphone.isEmpty()
+                || userstate.equals(dState) || usercity.equals(dCity) || userbg.equals(dBG) || userweight.isEmpty()
+                || picturePath == null || (rbMale.isChecked() == false && rbFemale.isChecked() == false)) {
+            Toast.makeText(context, "Please Fill All Details", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            if (userpass.equals(usercpass)) return true;
+            else {
+                Toast.makeText(context, "Passwords don't Match", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+    }
+
+    protected void signUp() {
+        //Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+        dialog.show();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
+        byte[] image = stream.toByteArray();
+        pf = new ParseFile(userfname + "_" + userlname + ".png", image);
+        Log.d(InitClass.TAG, "Upload Started");
+        pf.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.d(InitClass.TAG, "Upload Complete");
+                    Log.d(InitClass.TAG, pf.getUrl());
+                    saveToParse();
+                }
+            }
+        }, new ProgressCallback() {
+            @Override
+            public void done(Integer percentDone) {
+                Log.d(InitClass.TAG, percentDone + "% done");
+            }
+        });
+
+    }
+
+    private void saveToParse() {
+        String gender = rbMale.isChecked() ? "Male" : "Female";
+        final ParseUser user = new ParseUser();
+        user.setUsername(useremail);
+        user.setPassword(userpass);
+        user.put("First_Name", userfname);
+        user.put("Last_Name", userlname);
+        user.put("DOB", userdob);
+        user.put("Address1", useradd1);
+        user.put("Address2", useradd2);
+        user.put("State", userstate);
+        user.put("City", usercity);
+        user.put("BG", userbg);
+        user.put("Phone", Long.parseLong(userphone));
+        user.put("ProfilePic", pf);
+        user.put("Gender", gender);
+        user.put("Age", getAge(userdob));
+        user.put("Weight", userweight);
+        if (Integer.parseInt(userweight) < 50 || Integer.parseInt(getAge(userdob)) < 17)
+            user.put("CanDonate", false);
+        else user.put("CanDonate", true);
+        user.signUpInBackground(new SignUpCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(context,
+                            "Account is Created, please Fill Medical Details.",
+                            Toast.LENGTH_LONG).show();
+                    InitClass.updateParseInstallation(user);
+                    startActivity(new Intent(context, MedicalDetailsActivity.class));
+                    dialog.dismiss();
+                    finish();
+                } else {
+                    Toast.makeText(context, "Sign up Error: " + e.getMessage(), Toast.LENGTH_LONG)
+                            .show();
+                    Log.e(InitClass.TAG, e.toString());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (parent == spinState) {
+            dCity = InitClass.getCity(parent.getItemAtPosition(position).toString(), CITY, cityAdapter);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            picturePath = cursor.getString(columnIndex);
+            cursor.close();
+            try {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                final Matrix matrix = new Matrix();
+                ;
+                bitmap = BitmapFactory.decodeFile(picturePath, options);
+                options.inSampleSize = calculateInSampleSize(options, 200, 200);
+                try {
+                    ExifInterface exif = new ExifInterface(picturePath);
+                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+                    Log.d(InitClass.TAG + " EXIF", "Exif: " + orientation);
+                    if (orientation == 6) {
+                        matrix.postRotate(90);
+                    } else if (orientation == 3) {
+                        matrix.postRotate(180);
+                    } else if (orientation == 8) {
+                        matrix.postRotate(270);
+                    }
+                } catch (Exception e) {
+                    Log.e(InitClass.TAG, e.toString() + " at " + e.getCause());
+                }
+
+                options.inJustDecodeBounds = false;
+                bitmap = BitmapFactory.decodeFile(picturePath, options);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                bitmap = Bitmap.createScaledBitmap(bitmap, ibChooseProfilePic.getWidth(), ibChooseProfilePic.getWidth(), false);
+                bitmap = getCroppedBitmap(bitmap);
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                ibChooseProfilePic.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                Log.e(InitClass.TAG, e.toString() + " at " + e.getCause());
+                Toast.makeText(context, e.toString() + "\nImage is to big\nPlease choose small Image", Toast.LENGTH_LONG).show();
+            }
+
+        }
+    }
+
     public Bitmap getCroppedBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -425,18 +334,19 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
     }
-    public String getAge(String DOB){
+
+    public String getAge(String DOB) {
         Calendar dob = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
-        int year,month,day;
-        day=Integer.parseInt(DOB.substring(0,2));
-        month=Integer.parseInt(DOB.substring(3,5));
-        year=Integer.parseInt(DOB.substring(6, 10));
+        int year, month, day;
+        day = Integer.parseInt(DOB.substring(0, 2));
+        month = Integer.parseInt(DOB.substring(3, 5));
+        year = Integer.parseInt(DOB.substring(6, 10));
         dob.set(year, month, day);
         int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
             age--;
         }
-        return age+"";
+        return age + "";
     }
 }
