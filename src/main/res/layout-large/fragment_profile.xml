@@ -8,8 +8,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_profile" tools:context=".ProfileActivity">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ibProfile"
-            android:src="@drawable/icon_blood_128"
+            android:src="@drawable/icon_blank_profile_128"
             android:background="@drawable/profile_button"
             android:layout_below="@id/ibEdit"
             android:layout_marginTop="25dp"

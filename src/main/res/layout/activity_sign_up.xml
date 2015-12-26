@@ -199,6 +199,8 @@
             android:ems="10"
             android:id="@+id/etDOB"
             android:hint="DD-MM-YYYY"
+            android:focusableInTouchMode="false"
+            android:editable="false"
             android:layout_below="@id/etLName"
             android:layout_marginTop="25dp"
             android:layout_marginLeft="5dp"

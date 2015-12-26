@@ -2,10 +2,9 @@ package in.rakhtsavelives.app;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -162,16 +161,20 @@ public class NotificationActivity extends Activity {
             new AlertDialog.Builder(this)
                     .setMessage(donnerName + " is ready to donate blood\n" +
                             "You can contact him/her on\n" + donnerPhone + "\n" +
-                            "You can copy number by clicking button below.")
+                            "You can call him/her by clicking button below.")
                     .setTitle("Donner Found!")
-                    .setPositiveButton("Copy To ClipBoard", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Call", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                          /*
                             ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                             ClipData clipData = ClipData.newPlainText("Phone", donnerPhone);
                             clipboard.setPrimaryClip(clipData);
                             dialog.dismiss();
                             finish();
+                            */
+                            Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + donnerPhone));
+                            startActivity(i);
                         }
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -3,4 +3,6 @@
     <color name="colorPrimary">#FF0000</color>
     <color name="colorPrimaryDark">#F00000</color>
     <color name="colorAccent">#000</color>
+    <color name="showCaseTitle">#F00</color>
+    <color name="showCaseText">#0cf</color>
 </resources>

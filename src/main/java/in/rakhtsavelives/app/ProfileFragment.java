@@ -113,23 +113,30 @@ public class ProfileFragment extends Fragment {
         weight = (String) user.get("Weight");
         age = getAge(dob);
         user.put("Age", age);
+        if (Integer.parseInt(age) > 17 && Integer.parseInt(weight) >= 50)
+            user.put("CanDonate", true);
+        else
+            user.put("CanDonate", false);
         user.saveInBackground();
-        ParseFile pf = user.getParseFile("ProfilePic");
-        pf.getDataInBackground(new GetDataCallback() {
-            @Override
-            public void done(byte[] data, ParseException e) {
-                if (e == null) {
-                    Log.d(InitClass.TAG, "We've got data in data.");
-                    Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    bmp = Bitmap.createScaledBitmap(bmp, widthOfBitmap, heightOfBitmap, false);
-                    bmp = getCroppedBitmap(bmp);
-                    ibProfile.setImageBitmap(bmp);
-                } else {
-                    Log.d(InitClass.TAG, "There was a problem downloading the data.");
+        try {
+            ParseFile pf = user.getParseFile("ProfilePic");
+            pf.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    if (e == null) {
+                        Log.d(InitClass.TAG, "We've got data in data.");
+                        Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        bmp = Bitmap.createScaledBitmap(bmp, widthOfBitmap, heightOfBitmap, false);
+                        bmp = getCroppedBitmap(bmp);
+                        ibProfile.setImageBitmap(bmp);
+                    } else {
+                        Log.d(InitClass.TAG, "There was a problem downloading the data.");
+                    }
                 }
-            }
-        });
-
+            });
+        } catch (Exception e) {
+            Log.e(InitClass.TAG,"No image found");
+        }
         tvName.setText(name);
         tvBG.setText(bg);
         etDOB.setText(dob + " (" + age + " Years)");

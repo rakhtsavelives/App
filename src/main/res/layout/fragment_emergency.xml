@@ -16,7 +16,7 @@
     <android.support.design.widget.FloatingActionButton
         android:layout_height="79dp"
         android:layout_width="71dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="50dp"
         android:theme="@style/FAB"
         android:id="@+id/fabSearch"
         android:src="@drawable/icon_search_128"
@@ -25,21 +25,30 @@
     <android.support.design.widget.FloatingActionButton
         android:layout_height="79dp"
         android:layout_width="71dp"
-        android:layout_marginTop="25dp"
         android:theme="@style/FAB"
-        android:id="@+id/fabAboutUs"
-        android:layout_marginBottom="25dp"
-        android:src="@drawable/icon_aboutus_128"
-        android:layout_gravity="center_horizontal|bottom" />
+        android:id="@+id/fabFAQ"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/icon_faq_128"
+        android:layout_gravity="left|center_vertical" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_height="79dp"
         android:layout_width="71dp"
         android:layout_marginTop="50dp"
         android:theme="@style/FAB"
-        android:id="@+id/fabFAQ"
-        android:layout_marginLeft="25dp"
+        android:id="@+id/fabDonate"
         android:layout_marginBottom="50dp"
-        android:src="@drawable/icon_faq_128"
+        android:src="@drawable/icon_donate_128"
+        android:layout_gravity="center_horizontal|bottom" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_height="79dp"
+        android:layout_width="71dp"
+        android:theme="@style/FAB"
+        android:layout_marginTop="50dp"
+        android:id="@+id/fabAboutUs"
+        android:layout_marginLeft="25dp"
+        android:src="@drawable/icon_aboutus_128"
         android:layout_gravity="left|center_vertical" />
 </FrameLayout>

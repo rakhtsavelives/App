@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -25,7 +27,7 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
@@ -95,32 +97,35 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
 
     private void logout() {
         ParseUser.logOutInBackground();
-        Intent i1 = new Intent(getApplicationContext(), LoginActivity.class);
-        unSubscribe();
-        startActivity(i1);
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        unsubscribeAll();
+        startActivity(i);
         finish();
     }
 
-    protected void unSubscribe() {
-        ParsePush.unsubscribeInBackground("Donner", new SaveCallback() {
+    protected void unSubscribe(final String channel) {
+        ParsePush.unsubscribeInBackground(channel, new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Log.d(InitClass.TAG, "successfully unsubscribed to the broadcast channel.");
+                    Log.d(InitClass.TAG, "successfully unsubscribed to from" + channel + " channel.");
                 } else {
-                    Log.e(InitClass.TAG, "failed to unsubscribe for push", e);
+                    Log.e(InitClass.TAG, "failed to unsubscribe form " + channel, e);
                 }
             }
         });
-        ParsePush.unsubscribeInBackground("loggedIN", new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Log.d(InitClass.TAG, "successfully unsubscribed to the broadcast channel.");
-                } else {
-                    Log.e(InitClass.TAG, "failed to unsubscribe for push", e);
-                }
-            }
-        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unSubscribe("Blood");
+        ParseObject.unpinAllInBackground();
+    }
+    protected void unsubscribeAll(){
+        unSubscribe("loggedIN");
+        unSubscribe("Donner");
+        unSubscribe(InitClass.getBGChannel(ParseUser.getCurrentUser().getString("BG")));
+        unSubscribe("Blood");
     }
 }

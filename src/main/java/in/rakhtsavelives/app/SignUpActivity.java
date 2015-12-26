@@ -1,5 +1,7 @@
 package in.rakhtsavelives.app;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,9 +21,11 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -36,6 +40,7 @@ import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -50,7 +55,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     String email, pass, dState, dCity, dBG, picturePath = null;
     Button btnNext;
     ImageButton ibChooseProfilePic;
-    Context context;
+    Context context = this;
+    Boolean fileUploaded=false;
     int day, month, year;
     ArrayList<String> STATE, CITY, BG;
     String useremail, userpass, userfname, usercpass, userlname, userdob, useradd1, useradd2, userstate,
@@ -80,12 +86,12 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         Intent i = getIntent();
         email = i.getStringExtra("email");
         pass = i.getStringExtra("pass");
-        context = getApplicationContext();
         day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + 1;
         month = Calendar.getInstance().get(Calendar.MONTH) + 1;
         year = Calendar.getInstance().get(Calendar.YEAR);
@@ -94,9 +100,9 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     protected void init(String email, String pass) {
 
-        STATE = new ArrayList();
+        STATE = SplashActivity.STATES;
         CITY = new ArrayList();
-        BG = new ArrayList();
+        BG = SplashActivity.BG;
 
         dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -121,6 +127,27 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         etEmailSignUp.setText(email);
         etPassSignUp.setText(pass);
 
+        etDOB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int[] date = getTodayDate();
+                final DecimalFormat decimalFormat = new DecimalFormat("00");
+                DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        etDOB.setText(decimalFormat.format(dayOfMonth) + "/"
+                                + decimalFormat.format(monthOfYear+1) + "/"
+                                + decimalFormat.format(year));
+                        date[0] = year;
+                        date[1] = monthOfYear+1;
+                        date[2] = dayOfMonth;
+                    }
+                }, date[0], date[1], date[2]);
+                datePickerDialog.setCancelable(false);
+                datePickerDialog.show();
+            }
+        });
+
         spinState = (Spinner) findViewById(R.id.spinState);
         stateAdapter = new ArrayAdapter(context, R.layout.spinner_item, STATE);
 
@@ -135,10 +162,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         spinBG.setAdapter(bgAdapter);
 
         spinState.setOnItemSelectedListener(this);
-        spinCity.setOnItemSelectedListener(this);
-
-        dState = InitClass.getState(STATE, stateAdapter);
-        dBG = InitClass.getBloodGroup(BG, bgAdapter);
+        // new BackGroundProcesses().execute("data");
 
         ibChooseProfilePic = (ImageButton) findViewById(R.id.ibChooseProfilePic);
         ibChooseProfilePic.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +190,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 userbg = spinBG.getSelectedItem().toString();
                 userphone = etPhone.getText().toString();
                 userweight = etWeight.getText().toString();
+                dState = STATE.get(0);
+                dBG = BG.get(0);
                 if (checkInputes()) {
                     signUp();
                 }
@@ -203,6 +229,12 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 if (e == null) {
                     Log.d(InitClass.TAG, "Upload Complete");
                     Log.d(InitClass.TAG, pf.getUrl());
+                    fileUploaded=true;
+                    saveToParse();
+                } else {
+                    Log.e(InitClass.TAG, e.toString());
+                    Log.e(InitClass.TAG,e.toString(),e);
+                    Toast.makeText(getApplicationContext(), "Sorry Image Cannot Be Uploaded!, Please Sign Up WithOut Image", Toast.LENGTH_LONG).show();
                     saveToParse();
                 }
             }
@@ -229,7 +261,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         user.put("City", usercity);
         user.put("BG", userbg);
         user.put("Phone", Long.parseLong(userphone));
-        user.put("ProfilePic", pf);
+        if(fileUploaded)user.put("ProfilePic", pf);
         user.put("Gender", gender);
         user.put("Age", getAge(userdob));
         user.put("Weight", userweight);
@@ -318,7 +350,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         }
     }
 
-    public Bitmap getCroppedBitmap(Bitmap bitmap) {
+    protected Bitmap getCroppedBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
@@ -335,7 +367,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         return output;
     }
 
-    public String getAge(String DOB) {
+    protected String getAge(String DOB) {
         Calendar dob = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
         int year, month, day;
@@ -348,5 +380,14 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             age--;
         }
         return age + "";
+    }
+
+    protected int[] getTodayDate() {
+        int[] date = new int[3];
+        Calendar today = Calendar.getInstance();
+        date[2] = today.get(Calendar.DAY_OF_MONTH);
+        date[1] = today.get(Calendar.MONTH);
+        date[0] = today.get(Calendar.YEAR);
+        return date;
     }
 }

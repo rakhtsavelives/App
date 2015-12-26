@@ -1,4 +1,5 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +8,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -15,32 +17,35 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/tvName"
+            android:textSize="25dp"
+            android:layout_marginLeft="59dp"
+            android:layout_marginStart="59dp"
             android:layout_alignBottom="@+id/tvBloodGroup"
             android:layout_toRightOf="@+id/tvBloodGroup"
-            android:layout_marginLeft="10dp"
             android:layout_toEndOf="@+id/tvBloodGroup" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ibProfile"
-            android:src="@drawable/icon_blank_profile_64"
+            android:src="@drawable/icon_blank_profile_128"
             android:background="@drawable/profile_button"
-            android:layout_below="@+id/ibEdit"
+            android:layout_below="@id/ibEdit"
+            android:layout_marginTop="25dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="14dp" />
+            android:layout_alignParentEnd="true" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/black"
             android:id="@+id/line1"
-            android:layout_below="@+id/tvBloodGroup"
+            android:layout_alignBottom="@+id/ibProfile"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="55dp"
             android:layout_toLeftOf="@+id/ibProfile"
             android:layout_toStartOf="@+id/ibProfile" />
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,19 +55,19 @@
             android:id="@+id/tvBloodGroup"
             android:textColor="#FFF"
             android:textStyle="bold"
-            android:textSize="10dp"
-            android:background="@drawable/icon_blood_32"
+            android:background="@drawable/icon_blood_64"
             android:gravity="center"
+            android:textSize="20dp"
             android:layout_alignTop="@+id/ibProfile"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
-
         <ScrollView
+
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:id="@+id/scrollView"
             android:layout_below="@+id/ibProfile"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="45dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true" >
@@ -75,6 +80,7 @@
                     android:layout_height="match_parent"
                     android:padding="10dp">
                     <TextView
+                        android:textSize="25dp"
                         android:text="Gender : "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -92,6 +98,7 @@
                     android:layout_height="match_parent"
                     android:padding="10dp">
                     <TextView
+                        android:textSize="25dp"
                         android:text="DOB : "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -99,7 +106,7 @@
                         android:gravity="right"/>
                     <EditText
                         android:id="@+id/etProfileDOB"
-                        android:layout_width="200dp"
+                        android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:layout_column="2"
                         android:enabled="false"/>
@@ -109,6 +116,7 @@
                     android:layout_height="match_parent"
                     android:padding="10dp">
                     <TextView
+                        android:textSize="25dp"
                         android:text="Weight : "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -128,12 +136,13 @@
                     <TextView
                         android:text="Phone No : "
                         android:layout_width="wrap_content"
+                        android:textSize="25dp"
                         android:layout_height="wrap_content"
                         android:layout_column="1"
                         android:gravity="right"/>
                     <EditText
                         android:id="@+id/etProfilePhone"
-                        android:layout_width="200dp"
+                        android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:layout_column="2"
                         android:inputType="textMultiLine"
@@ -144,6 +153,7 @@
                     android:layout_height="match_parent"
                     android:padding="10dp">
                     <TextView
+                        android:textSize="25dp"
                         android:text="Address 1 : "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -151,7 +161,7 @@
                         android:gravity="right"/>
                     <EditText
                         android:id="@+id/etProfileAddress1"
-                        android:layout_width="200dp"
+                        android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:layout_column="2"
                         android:inputType="textMultiLine"
@@ -162,6 +172,7 @@
                     android:layout_height="match_parent"
                     android:padding="10dp">
                     <TextView
+                        android:textSize="25dp"
                         android:text="Address 2 : "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -169,7 +180,7 @@
                         android:gravity="right"/>
                     <EditText
                         android:id="@+id/etProfileAddress2"
-                        android:layout_width="200dp"
+                        android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:layout_column="2"
                         android:inputType="textMultiLine"
@@ -180,6 +191,7 @@
                     android:layout_height="match_parent"
                     android:padding="10dp">
                     <TextView
+                        android:textSize="25dp"
                         android:text="City : "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -187,7 +199,7 @@
                         android:gravity="right"/>
                     <EditText
                         android:id="@+id/etProfileCity"
-                        android:layout_width="200dp"
+                        android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:layout_column="2"
                         android:inputType="textMultiLine"
@@ -198,6 +210,7 @@
                     android:layout_height="match_parent"
                     android:padding="10dp">
                     <TextView
+                        android:textSize="25dp"
                         android:text="State : "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -205,7 +218,7 @@
                         android:gravity="right"/>
                     <EditText
                         android:id="@+id/etProfileState"
-                        android:layout_width="200dp"
+                        android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:layout_column="2"
                         android:inputType="textMultiLine"
@@ -214,8 +227,10 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    android:gravity="center">
                     <Button
+                        android:textSize="25dp"
                         android:id="@+id/btnProfileUpdate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -232,12 +247,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ibEdit"
-            android:src="@drawable/icon_edit_24"
+            android:src="@drawable/icon_edit_32"
             android:background="#FFF"
             android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/ibProfile"
-            android:layout_alignEnd="@+id/ibProfile" />
-
+            android:layout_alignRight="@+id/scrollView"
+            android:layout_alignEnd="@+id/scrollView" />
     </RelativeLayout>
+
 
 </FrameLayout>

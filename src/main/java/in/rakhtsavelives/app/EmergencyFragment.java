@@ -3,9 +3,12 @@ package in.rakhtsavelives.app;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
@@ -29,27 +35,29 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class EmergencyFragment extends Fragment implements View.OnClickListener {
-    FloatingActionButton fabEmergency, fabAboutUs, fabFAQ, fabSearch;
+    FloatingActionButton fabEmergency, fabAboutUs, fabFAQ, fabSearch, fabDonate;
     boolean canDonate;
-    int NOTIFICATION_EXPIRE_TIME_SECONDS = 60 * 5;
+    int NOTIFICATION_EXPIRE_TIME_SECONDS = 60 * 60;
     ParseUser user;
     JSONObject data;
     ArrayList BG;
     ArrayAdapter bgAdapter;
-    String name, phone, bg,requestBG;;
+    String name, phone, bg, requestBG;
+    ;
     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.MATCH_PARENT);
 
     public EmergencyFragment() {
-        BG=new ArrayList();
+        BG = SplashActivity.BG;
         user = ParseUser.getCurrentUser();
         name = user.getString("First_Name") + " " + user.getString("Last_Name");
         phone = user.getLong("Phone") + "";
         bg = user.getString("BG");
         data = new JSONObject();
     }
-    protected void getData(String bg){
+
+    protected void getData(String bg) {
         try {
             data.put("Name", name);
             data.put("Phone", phone);
@@ -58,11 +66,11 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
             Log.e(InitClass.TAG, e.toString());
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        bgAdapter=new ArrayAdapter<String>(getContext(),R.layout.spinner_item,BG);
-        InitClass.getBloodGroup(BG, bgAdapter);
+        bgAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item, BG);
         View rootView = inflater.inflate(R.layout.fragment_emergency, container, false);
         canDonate = user.getBoolean("CanDonate");
         subscribe(InitClass.getBGChannel(bg));
@@ -77,15 +85,25 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
                     Log.e(InitClass.TAG, e.getMessage());
             }
         });
+        subscribe(user.getUsername());
         fabEmergency = (FloatingActionButton) rootView.findViewById(R.id.fabEmergency);
         fabAboutUs = (FloatingActionButton) rootView.findViewById(R.id.fabAboutUs);
         fabSearch = (FloatingActionButton) rootView.findViewById(R.id.fabSearch);
         fabFAQ = (FloatingActionButton) rootView.findViewById(R.id.fabFAQ);
+        fabDonate = (FloatingActionButton) rootView.findViewById(R.id.fabDonate);
 
         fabEmergency.setOnClickListener(this);
         fabFAQ.setOnClickListener(this);
         fabSearch.setOnClickListener(this);
         fabAboutUs.setOnClickListener(this);
+        fabDonate.setOnClickListener(this);
+
+
+
+        final Paint colorTitle = new Paint();
+        final Paint colorText = new Paint();
+        colorTitle.setColor(getResources().getColor(R.color.showCaseTitle));
+        colorText.setColor(getResources().getColor(R.color.showCaseText));
         return rootView;
     }
 
@@ -97,7 +115,7 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
                 public void done(ParseException e) {
                     if (e == null) {
                         Log.d(InitClass.TAG, "successfully unsubscribed to the broadcast channel.");
-                        final Spinner spinnerBG=new Spinner(getContext());
+                        final Spinner spinnerBG = new Spinner(getContext());
                         spinnerBG.setLayoutParams(lp);
                         spinnerBG.setAdapter(bgAdapter);
                         spinnerBG.setSelection(BG.indexOf(bg));
@@ -181,6 +199,8 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
                     .show();
         } else if (v == fabFAQ) {
             Toast.makeText(getContext(), "FAQ Clicked", Toast.LENGTH_SHORT).show();
+        } else if (v == fabDonate) {
+            Toast.makeText(getContext(), "Donate Clicked", Toast.LENGTH_SHORT).show();
         }
     }
 
