@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-
+        <activity android:name=".TutorialActivity"/>
         <service android:name="com.parse.PushService" />
         <!-- android:name="com.parse.ParsePushBroadcastReceiver" -->
         <receiver
