@@ -7,6 +7,5 @@
     <color name="showCaseText">#0cf</color>
     <color name="showCaseBackground">#0cf</color>
 
-    <color name="tutorial_slide_1_background">#f00</color>
-    <color name="tutorial_slide_2_background">#0cf</color>
+    <color name="tutorial_slide_background">#f00</color>
 </resources>

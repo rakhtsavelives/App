@@ -1,5 +1,6 @@
 package in.rakhtsavelives.app;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +21,18 @@ public class SearchActivity extends AppCompatActivity {
     ArrayList<ListViewItem> searchList;
     ListViewAdapter searchAdapter;
     ListView searchListView;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Searching..\nPlease wait...");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
         searchListView = (ListView) findViewById(R.id.listView);
         searchList = new ArrayList<ListViewItem>();
         searchAdapter = new ListViewAdapter(this, searchList);
@@ -32,7 +40,7 @@ public class SearchActivity extends AppCompatActivity {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         Intent i = getIntent();
         String searchName = i.getStringExtra("name");
-        query.whereContains("First_Name", searchName);
+        query.whereMatches("First_Name", "("+searchName+")", "i");
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
@@ -45,11 +53,16 @@ public class SearchActivity extends AppCompatActivity {
                                         objects.get(i).getString("City"));
                         searchList.add(item);
                     }
+                    if(objects.size()==0)
+                        searchList.add(new ListViewItem("No Records Found!", "", ""));
                     searchAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getApplicationContext(), "No records found!", Toast.LENGTH_LONG).show();
+                    searchList.add(new ListViewItem("No Records Found!", "", ""));
+                    searchAdapter.notifyDataSetChanged();
                     Log.e(InitClass.TAG, e.toString());
                 }
+                dialog.dismiss();
             }
         });
     }

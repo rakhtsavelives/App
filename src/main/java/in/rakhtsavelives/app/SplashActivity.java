@@ -207,8 +207,7 @@ public class SplashActivity extends Activity {
                         if (pbSplash.getProgress() < 92) sleep(1000);
                         BG = InitClass.getBloodGroup(BG);
                         STATES = InitClass.getState(STATES);
-                        //startActivity(intent);
-                        startActivity(new Intent(SplashActivity.this,TutorialActivity.class));
+                        startActivity(intent);
                         finish();
                     } catch (Exception e) {
                         Log.e(InitClass.TAG, "Thread Error", e);

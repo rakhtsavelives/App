@@ -384,14 +384,14 @@ public class InitClass extends Application {
                 });
     }
 
-  /*  protected static boolean isFirstRun() {
+    protected static boolean isFirstRun() {
         Log.d(TAG, "FirstRun:" + pref.getBoolean("FirstRun", true));
         if (pref.getBoolean("FirstRun", true)) {
             pref.edit().putBoolean("FirstRun", false).commit();
             return true;
         }
         return false;
-    }*/
+    }
 
     protected static String getCityFromParse(String state, final ArrayList CITY, final ArrayAdapter cityAdapter) {
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("City");
@@ -465,7 +465,7 @@ public class InitClass extends Application {
                                     Log.e(InitClass.TAG, ex.toString());
                                 }
                             }
-                            Log.d(InitClass.TAG,"BG Fetched From Parse!");
+                            Log.d(InitClass.TAG, "BG Fetched From Parse!");
                             bgAdapter.notifyDataSetChanged();
                         } else {
                             Log.e(InitClass.TAG, e.getMessage() + "\n" + e.getStackTrace());

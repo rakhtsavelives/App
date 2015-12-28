@@ -86,7 +86,7 @@
             android:layout_alignEnd="@+id/etFName" />
 
         <EditText
-            android:hint="Address 1 / Home"
+            android:hint="Address 1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
@@ -100,7 +100,7 @@
             android:layout_alignParentStart="true" />
 
         <EditText
-            android:hint="Address 2 / Work"
+            android:hint="[Optional] Address 2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"

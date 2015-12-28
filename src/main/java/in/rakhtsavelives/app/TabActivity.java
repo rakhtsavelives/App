@@ -28,6 +28,8 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
     private ActionBar actionBar;
     private String[] tabs = {"Emergency", "Profile"};
     ParseUser user;
+    protected static InterstitialAd interstitialAdExit;
+    private String EXIT_AD_UNIT_INTERSTITIAL_ID = "ca-app-pub-1183027429910842/5398253812";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,15 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getSupportActionBar();
         mAdapter = new TabAdapter(getSupportFragmentManager());
-
+        new Thread(){
+            @Override
+            public void run() {
+                if(InitClass.isFirstRun()) {
+                    startActivity(new Intent(TabActivity.this, TutorialActivity.class));
+                }
+                super.run();
+            }
+        }.start();
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -66,9 +76,23 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
             }
         });
 
-
+        interstitialAdExit = new InterstitialAd(getApplicationContext());
+        interstitialAdExit.setAdUnitId(EXIT_AD_UNIT_INTERSTITIAL_ID);
+        interstitialAdExit.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                requestNewInterstitial(interstitialAdExit);
+            }
+        });
+        requestNewInterstitial(interstitialAdExit);
     }
-
+    private void requestNewInterstitial(InterstitialAd interstitialAd) {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("79ABECE5D57419ADF9868D2B0EA55594")
+                .build();
+        interstitialAd.loadAd(adRequest);
+    }
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
@@ -134,6 +158,10 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
     protected void onDestroy() {
         super.onDestroy();
         ParseObject.unpinAllInBackground();
+        if (interstitialAdExit.isLoaded()) {
+            Log.d(InitClass.TAG, "AD Loaded");
+            interstitialAdExit.show();
+        } else Log.d(InitClass.TAG, "AD Not Loaded");
     }
 
     protected void unsubscribeAll() {
@@ -142,4 +170,5 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
         unSubscribe(user.getUsername().replaceAll("[^a-zA-Z0-9]", ""));
         unSubscribe(InitClass.getBGChannel(ParseUser.getCurrentUser().getString("BG")));
     }
+
 }

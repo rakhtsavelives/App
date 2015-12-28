@@ -198,7 +198,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     protected boolean checkInputes() {
         if (useremail.isEmpty() || userpass.isEmpty() || userfname.isEmpty() || userlname.isEmpty()
-                || userdob.isEmpty() || useradd1.isEmpty() || useradd2.isEmpty() || userphone.isEmpty()
+                || userdob.isEmpty() || useradd1.isEmpty() || userphone.isEmpty()
                 || userstate.equals(dState) || userbg.equals(dBG) || userweight.isEmpty()
                 || picturePath == null || (rbMale.isChecked() == false && rbFemale.isChecked() == false)) {
             Toast.makeText(context, "Please Fill All Details", Toast.LENGTH_SHORT).show();

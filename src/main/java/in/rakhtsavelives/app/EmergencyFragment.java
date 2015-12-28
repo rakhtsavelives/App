@@ -3,12 +3,10 @@ package in.rakhtsavelives.app;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.text.TextPaint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -35,7 +31,6 @@ import com.parse.SendCallback;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class EmergencyFragment extends Fragment implements View.OnClickListener {
     FloatingActionButton fabEmergency, fabAboutUs, fabFAQ, fabSearch, fabDonate;
@@ -45,8 +40,8 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
     JSONObject data;
     ArrayList BG;
     ArrayAdapter bgAdapter;
-    protected static InterstitialAd interstitialAd;
-    private String AD_UNIT_INTERSTITIAL_ID = "ca-app-pub-1183027429910842/6853137412";
+    protected static InterstitialAd interstitialAdMain;
+    private String MAIN_AD_UNIT_INTERSTITIAL_ID = "ca-app-pub-1183027429910842/6853137412";
     Paint colorTitle = new Paint();
     Paint colorText = new Paint();
 
@@ -127,23 +122,24 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
         fabAboutUs.setOnClickListener(this);
         fabDonate.setOnClickListener(this);
 
-        interstitialAd = new InterstitialAd(getContext());
-        interstitialAd.setAdUnitId(AD_UNIT_INTERSTITIAL_ID);
-        interstitialAd.setAdListener(new AdListener() {
+        interstitialAdMain = new InterstitialAd(getContext());
+        interstitialAdMain.setAdUnitId(MAIN_AD_UNIT_INTERSTITIAL_ID);
+        interstitialAdMain.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
                 super.onAdClosed();
-                requestNewInterstitial();
+                requestNewInterstitial(interstitialAdMain);
             }
         });
-        requestNewInterstitial();
+        requestNewInterstitial(interstitialAdMain);
 
         return rootView;
     }
 
-    private void requestNewInterstitial() {
+    private void requestNewInterstitial(InterstitialAd interstitialAd) {
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("79ABECE5D57419ADF9868D2B0EA55594")
+                .addTestDevice("33F0432E90335E6FAB8B7CBC6D699CFB")
                 .build();
         interstitialAd.loadAd(adRequest);
     }
@@ -192,9 +188,9 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
                                                     }
                                                     subscribe("Donner");
                                                     Toast.makeText(getContext(), "Blood Request has been sent..\nPlease wait..", Toast.LENGTH_SHORT).show();
-                                                    if (interstitialAd.isLoaded()) {
+                                                    if (interstitialAdMain.isLoaded()) {
                                                         Log.d(InitClass.TAG, "AD Loaded");
-                                                        interstitialAd.show();
+                                                        interstitialAdMain.show();
                                                     } else Log.d(InitClass.TAG, "AD Not Loaded");
                                                 } else {
                                                     Log.e(InitClass.TAG, "failed to send push", e);
