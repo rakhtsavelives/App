@@ -1,6 +1,5 @@
 package in.rakhtsavelives.app;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -56,8 +55,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     Button btnNext;
     ImageButton ibChooseProfilePic;
     Context context = this;
-    Boolean fileUploaded=false;
-    int day, month, year;
+    Boolean fileUploaded = false;
     ArrayList<String> STATE, CITY, BG;
     String useremail, userpass, userfname, usercpass, userlname, userdob, useradd1, useradd2, userstate,
             usercity, userbg, userphone, userweight;
@@ -92,9 +90,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         Intent i = getIntent();
         email = i.getStringExtra("email");
         pass = i.getStringExtra("pass");
-        day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + 1;
-        month = Calendar.getInstance().get(Calendar.MONTH) + 1;
-        year = Calendar.getInstance().get(Calendar.YEAR);
         init(email, pass);
     }
 
@@ -127,27 +122,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         etEmailSignUp.setText(email);
         etPassSignUp.setText(pass);
 
-        etDOB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final int[] date = getTodayDate();
-                final DecimalFormat decimalFormat = new DecimalFormat("00");
-                DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        etDOB.setText(decimalFormat.format(dayOfMonth) + "/"
-                                + decimalFormat.format(monthOfYear+1) + "/"
-                                + decimalFormat.format(year));
-                        date[0] = year;
-                        date[1] = monthOfYear+1;
-                        date[2] = dayOfMonth;
-                    }
-                }, date[0], date[1], date[2]);
-                datePickerDialog.setCancelable(false);
-                datePickerDialog.show();
-            }
-        });
-
         spinState = (Spinner) findViewById(R.id.spinState);
         stateAdapter = new ArrayAdapter(context, R.layout.spinner_item, STATE);
 
@@ -161,19 +135,33 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         spinCity.setAdapter(cityAdapter);
         spinBG.setAdapter(bgAdapter);
 
-        spinState.setOnItemSelectedListener(this);
-        // new BackGroundProcesses().execute("data");
-
         ibChooseProfilePic = (ImageButton) findViewById(R.id.ibChooseProfilePic);
-        ibChooseProfilePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
-        });
 
         btnNext = (Button) findViewById(R.id.btnNext);
+
+        if (STATE.size() == 0) InitClass.getStateFromParse(STATE, stateAdapter);
+        if (BG.size() == 0) InitClass.getBGFromParse(BG, bgAdapter);
+
+        etDOB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int[] date = getTodayDate();
+                final DecimalFormat decimalFormat = new DecimalFormat("00");
+                DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        etDOB.setText(decimalFormat.format(dayOfMonth) + "/"
+                                + decimalFormat.format(monthOfYear + 1) + "/"
+                                + decimalFormat.format(year));
+                        date[0] = year;
+                        date[1] = monthOfYear + 1;
+                        date[2] = dayOfMonth;
+                    }
+                }, date[0], date[1], date[2]);
+                datePickerDialog.setCancelable(false);
+                datePickerDialog.show();
+            }
+        });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,7 +174,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 useradd1 = etAddress1.getText().toString();
                 useradd2 = etAddress2.getText().toString();
                 userstate = spinState.getSelectedItem().toString();
-                usercity = spinCity.getSelectedItem().toString();
+                // usercity = spinCity.getSelectedItem().toString();
                 userbg = spinBG.getSelectedItem().toString();
                 userphone = etPhone.getText().toString();
                 userweight = etWeight.getText().toString();
@@ -197,16 +185,30 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 }
             }
         });
+        ibChooseProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }
+        });
+        spinState.setOnItemSelectedListener(this);
+
     }
 
     protected boolean checkInputes() {
         if (useremail.isEmpty() || userpass.isEmpty() || userfname.isEmpty() || userlname.isEmpty()
                 || userdob.isEmpty() || useradd1.isEmpty() || useradd2.isEmpty() || userphone.isEmpty()
-                || userstate.equals(dState) || usercity.equals(dCity) || userbg.equals(dBG) || userweight.isEmpty()
+                || userstate.equals(dState) || userbg.equals(dBG) || userweight.isEmpty()
                 || picturePath == null || (rbMale.isChecked() == false && rbFemale.isChecked() == false)) {
             Toast.makeText(context, "Please Fill All Details", Toast.LENGTH_SHORT).show();
             return false;
         } else {
+            usercity = spinCity.getSelectedItem().toString();
+            if(usercity.equals("Please Select City")){
+                Toast.makeText(context, "Please Fill All Details", Toast.LENGTH_SHORT).show();
+                return false;
+            }
             if (userpass.equals(usercpass)) return true;
             else {
                 Toast.makeText(context, "Passwords don't Match", Toast.LENGTH_SHORT).show();
@@ -229,11 +231,11 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 if (e == null) {
                     Log.d(InitClass.TAG, "Upload Complete");
                     Log.d(InitClass.TAG, pf.getUrl());
-                    fileUploaded=true;
+                    fileUploaded = true;
                     saveToParse();
                 } else {
                     Log.e(InitClass.TAG, e.toString());
-                    Log.e(InitClass.TAG,e.toString(),e);
+                    Log.e(InitClass.TAG, e.toString(), e);
                     Toast.makeText(getApplicationContext(), "Sorry Image Cannot Be Uploaded!, Please Sign Up WithOut Image", Toast.LENGTH_LONG).show();
                     saveToParse();
                 }
@@ -261,7 +263,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         user.put("City", usercity);
         user.put("BG", userbg);
         user.put("Phone", Long.parseLong(userphone));
-        if(fileUploaded)user.put("ProfilePic", pf);
+        if (fileUploaded) user.put("ProfilePic", pf);
         user.put("Gender", gender);
         user.put("Age", getAge(userdob));
         user.put("Weight", userweight);
@@ -291,6 +293,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent == spinState) {
             dCity = InitClass.getCity(parent.getItemAtPosition(position).toString(), CITY, cityAdapter);
+            if (CITY.size() == 0)
+                dCity = InitClass.getCityFromParse(parent.getItemAtPosition(position).toString(), CITY, cityAdapter);
         }
     }
 
@@ -308,7 +312,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
-
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picturePath = cursor.getString(columnIndex);
             cursor.close();
@@ -316,7 +319,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
                 final Matrix matrix = new Matrix();
-                ;
                 bitmap = BitmapFactory.decodeFile(picturePath, options);
                 options.inSampleSize = calculateInSampleSize(options, 200, 200);
                 try {

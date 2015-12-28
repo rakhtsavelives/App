@@ -94,7 +94,7 @@ public class InitClass extends Application {
         activity.finish();
     }
 
-    protected static void getBloodGroup(final ArrayList BG) {
+    protected static ArrayList getBloodGroup(final ArrayList BG) {
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("BloodGroup");
         query.addAscendingOrder("ID")
                 .fromLocalDatastore()
@@ -116,9 +116,10 @@ public class InitClass extends Application {
                         }
                     }
                 });
+        return BG;
     }
 
-    protected static void getState(final ArrayList STATES) {
+    protected static ArrayList getState(final ArrayList STATES) {
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("State");
         query.addAscendingOrder("ID")
                 .fromLocalDatastore()
@@ -140,6 +141,7 @@ public class InitClass extends Application {
                         }
                     }
                 });
+        return STATES;
     }
 
     protected static String getCity(String state, final ArrayList CITY, final ArrayAdapter cityAdapter) {
@@ -248,6 +250,59 @@ public class InitClass extends Application {
         return donners;
     }
 
+    protected static LinkedList findDonnersInBGColumn(String bg) {
+        LinkedList donners = new LinkedList();
+        switch (bg) {
+            case "O-":
+                donners.add("O-");
+                break;
+            case "A-":
+                donners.add("O-");
+                donners.add("A-");
+                break;
+            case "B-":
+                donners.add("O-");
+                donners.add("B-");
+                break;
+            case "AB-":
+                donners.add("O-");
+                donners.add("A-");
+                donners.add("B-");
+                donners.add("AB-");
+                break;
+            case "O+":
+                donners.add("O-");
+                donners.add("O+");
+                break;
+            case "A+":
+                donners.add("O-");
+                donners.add("A-");
+                donners.add("O+");
+                donners.add("A+");
+                break;
+            case "B+":
+                donners.add("O-");
+                donners.add("B-");
+                donners.add("O+");
+                donners.add("B+");
+                break;
+            case "AB+":
+                donners.add("O-");
+                donners.add("A-");
+                donners.add("B-");
+                donners.add("AB-");
+                donners.add("O+");
+                donners.add("A+");
+                donners.add("B+");
+                donners.add("AB+");
+                break;
+            case "HH (Bombay)":
+                donners.add("HH (Bombay)");
+        }
+        return donners;
+    }
+
+
     protected static void initParse() {
         ParseUser.enableAutomaticUser();
         ParseInstallation currInstallation = ParseInstallation.getCurrentInstallation();
@@ -329,13 +384,95 @@ public class InitClass extends Application {
                 });
     }
 
-    protected static boolean isFirstRun() {
-        Log.d(TAG,"FirstRun:"+pref.getBoolean("FirstRun",true));
+  /*  protected static boolean isFirstRun() {
+        Log.d(TAG, "FirstRun:" + pref.getBoolean("FirstRun", true));
         if (pref.getBoolean("FirstRun", true)) {
-            pref.edit().putBoolean("FirstRun",false).commit();
+            pref.edit().putBoolean("FirstRun", false).commit();
             return true;
         }
         return false;
+    }*/
+
+    protected static String getCityFromParse(String state, final ArrayList CITY, final ArrayAdapter cityAdapter) {
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("City");
+        query.addAscendingOrder("ID")
+                .whereEqualTo("State", state)
+                .findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if (e == null) {
+                            CITY.clear();
+                            for (int i = 0; i < objects.size(); i++) {
+                                parseObject = objects.get(i);
+                                try {
+                                    CITY.add(parseObject.getString("City"));
+                                    if (i == 0) dCity = parseObject.getString("City");
+                                } catch (Exception ex) {
+                                    Log.e(InitClass.TAG, ex.toString());
+                                }
+                            }
+                            cityAdapter.notifyDataSetChanged();
+                            Log.d(InitClass.TAG, "CiTy Fetched From Parse!");
+                        } else {
+                            Log.e(InitClass.TAG, e.getMessage() + "\n" + e.getStackTrace());
+                        }
+                    }
+                });
+        return dCity;
+    }
+
+    protected static String getStateFromParse(final ArrayList STATE, final ArrayAdapter stateAdapter) {
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("State");
+        query.addAscendingOrder("ID")
+                .findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if (e == null) {
+                            STATE.clear();
+                            for (int i = 0; i < objects.size(); i++) {
+                                parseObject = objects.get(i);
+                                try {
+                                    STATE.add(parseObject.getString("State"));
+                                    if (i == 0) dState = parseObject.getString("State");
+                                } catch (Exception ex) {
+                                    Log.e(InitClass.TAG, ex.toString());
+                                }
+                            }
+                            stateAdapter.notifyDataSetChanged();
+                            Log.d(InitClass.TAG, "State Fetched From Parse!");
+                        } else {
+                            Log.e(InitClass.TAG, e.getMessage() + "\n" + e.getStackTrace());
+                        }
+                    }
+                });
+        return dState;
+    }
+
+    protected static String getBGFromParse(final ArrayList BG, final ArrayAdapter bgAdapter) {
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("BloodGroup");
+        query.addAscendingOrder("ID")
+                .findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if (e == null) {
+                            BG.clear();
+                            for (int i = 0; i < objects.size(); i++) {
+                                parseObject = objects.get(i);
+                                try {
+                                    BG.add(parseObject.getString("BG"));
+                                    if (i == 0) dBG = parseObject.getString("BG");
+                                } catch (Exception ex) {
+                                    Log.e(InitClass.TAG, ex.toString());
+                                }
+                            }
+                            Log.d(InitClass.TAG,"BG Fetched From Parse!");
+                            bgAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.e(InitClass.TAG, e.getMessage() + "\n" + e.getStackTrace());
+                        }
+                    }
+                });
+        return dBG;
     }
 
     @Override
@@ -348,6 +485,12 @@ public class InitClass extends Application {
         pref = getSharedPreferences("Data", MODE_PRIVATE);
         Parse.enableLocalDatastore(getApplicationContext());
         Parse.initialize(getApplicationContext(), APPLICATION_ID, CLIENT_KEY);
-        initParse();
+     /*   new Thread(){
+            @Override
+            public void run() {
+                initParse();
+            }
+        }.start();*/
     }
+
 }

@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
@@ -24,6 +27,7 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
     private TabAdapter mAdapter;
     private ActionBar actionBar;
     private String[] tabs = {"Emergency", "Profile"};
+    ParseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+        user = ParseUser.getCurrentUser();
         // Adding Tabs
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name)
@@ -60,7 +65,10 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
             public void onPageScrollStateChanged(int arg0) {
             }
         });
+
+
     }
+
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
@@ -96,9 +104,15 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
     }
 
     private void logout() {
-        ParseUser.logOutInBackground();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                ParseUser.logOutInBackground();
+                unsubscribeAll();
+            }
+        }.start();
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-        unsubscribeAll();
         startActivity(i);
         finish();
     }
@@ -108,7 +122,7 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Log.d(InitClass.TAG, "successfully unsubscribed to from" + channel + " channel.");
+                    Log.d(InitClass.TAG, "successfully unsubscribed to from " + channel + " channel.");
                 } else {
                     Log.e(InitClass.TAG, "failed to unsubscribe form " + channel, e);
                 }
@@ -119,13 +133,13 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unSubscribe("Blood");
         ParseObject.unpinAllInBackground();
     }
-    protected void unsubscribeAll(){
+
+    protected void unsubscribeAll() {
         unSubscribe("loggedIN");
         unSubscribe("Donner");
+        unSubscribe(user.getUsername().replaceAll("[^a-zA-Z0-9]", ""));
         unSubscribe(InitClass.getBGChannel(ParseUser.getCurrentUser().getString("BG")));
-        unSubscribe("Blood");
     }
 }
