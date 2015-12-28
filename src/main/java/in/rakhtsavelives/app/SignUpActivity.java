@@ -277,7 +277,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                             "Account is Created, please Fill Medical Details.",
                             Toast.LENGTH_LONG).show();
                     InitClass.updateParseInstallation(user);
-                    startActivity(new Intent(context, MedicalDetailsActivity.class));
+                    startActivity(new Intent(context, MedicalDetailsActivityQue1.class));
                     dialog.dismiss();
                     finish();
                 } else {

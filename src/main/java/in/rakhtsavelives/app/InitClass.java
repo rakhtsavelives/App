@@ -246,6 +246,9 @@ public class InitClass extends Application {
                 break;
             case "HH (Bombay)":
                 donners.add("HH_Bombay");
+            case "Example":
+                donners.add("Example");
+                break;
         }
         return donners;
     }
@@ -298,6 +301,10 @@ public class InitClass extends Application {
                 break;
             case "HH (Bombay)":
                 donners.add("HH (Bombay)");
+                break;
+            case "Example":
+                donners.add("Example");
+                break;
         }
         return donners;
     }

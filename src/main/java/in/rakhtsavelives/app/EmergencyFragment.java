@@ -83,7 +83,7 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
             data.put("Username", username);
             data.put("Name", name);
             data.put("Phone", phone);
-            data.put("alert", "Blood is Required of " + bg + "ve Blood Group");
+            data.put("alert", "Blood is Required of " + bg + " ve Blood Group");
         } catch (Exception e) {
             Log.e(InitClass.TAG, e.toString());
         }

@@ -12,4 +12,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_tab">TabActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
+    <string name="medical_details_que1">Have any time suffered with any of the following (Select all that apply) :</string>
+    <string name="medical_details_que2">Have you suffered/gone through  from any of following is past 1 year (Select All that apply) :</string>
+    <string name="medical_details_que3"></string>
+    <string name="medical_details_que4"></string>
 </resources>
