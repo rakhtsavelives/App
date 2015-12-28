@@ -21,25 +21,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Next"
-            android:id="@+id/btnNextQue1"
+            android:id="@+id/btnNextQue3"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Have you suffered / gone through  from any of following is past 1 year (Select All that apply)"
-            android:id="@+id/tvQue2"
+            android:text="@string/medical_details_que3"
+            android:id="@+id/tvQue3"
             android:textSize="15sp"
-            android:layout_alignTop="@+id/tvQue_2"
-            android:layout_toRightOf="@+id/tvQue_2"
-            android:layout_toEndOf="@+id/tvQue_2" />
+            android:layout_alignTop="@+id/tvQue_3"
+            android:layout_toRightOf="@+id/tvQue_3"
+            android:layout_toEndOf="@+id/tvQue_3" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="(2) "
-            android:id="@+id/tvQue_2"
+            android:text="(3) "
+            android:id="@+id/tvQue_3"
             android:textSize="15sp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
@@ -49,103 +49,93 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancer"
-            android:id="@+id/cbQue1_1"
+            android:text="@string/medical_details_que3_option_1"
+            android:id="@+id/cbQue3_1"
             android:checked="false"
             android:layout_marginTop="20dp"
-            android:layout_below="@+id/tvQue2"
-            android:layout_toRightOf="@+id/tvQue_2"
-            android:layout_toEndOf="@+id/tvQue_2" />
+            android:layout_below="@+id/tvQue3"
+            android:layout_toRightOf="@+id/tvQue_3"
+            android:layout_toEndOf="@+id/tvQue_3" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Liver Disease ( Jaundice )"
-            android:id="@+id/cbQue1_2"
+            android:text="@string/medical_details_que3_option_2"
+            android:id="@+id/cbQue3_2"
             android:checked="false"
-            android:layout_below="@+id/cbQue1_1"
-            android:layout_alignLeft="@+id/cbQue1_1"
-            android:layout_alignStart="@+id/cbQue1_1" />
+            android:layout_below="@+id/cbQue3_1"
+            android:layout_alignLeft="@+id/cbQue3_1"
+            android:layout_alignStart="@+id/cbQue3_1" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HIV AIDS"
-            android:id="@+id/cbQue1_3"
+            android:text="@string/medical_details_que3_option_3"
+            android:id="@+id/cbQue3_3"
             android:checked="false"
-            android:layout_below="@+id/cbQue1_2"
-            android:layout_alignLeft="@+id/cbQue1_2"
-            android:layout_alignStart="@+id/cbQue1_2" />
+            android:layout_below="@+id/cbQue3_2"
+            android:layout_alignLeft="@+id/cbQue3_2"
+            android:layout_alignStart="@+id/cbQue3_2" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Heart / Cardiac Disease"
+            android:text="@string/medical_details_que3_option_4"
             android:checked="false"
-            android:layout_below="@+id/cbQue1_3"
-            android:layout_alignLeft="@+id/cbQue1_3"
-            android:layout_alignStart="@+id/cbQue1_3"
-            android:id="@+id/cbQue1_4" />
+            android:layout_below="@+id/cbQue3_3"
+            android:layout_alignLeft="@+id/cbQue3_3"
+            android:layout_alignStart="@+id/cbQue3_3"
+            android:id="@+id/cbQue3_4" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chronic Astuama"
+            android:text="@string/medical_details_que3_option_5"
             android:checked="false"
-            android:id="@+id/cbQue1_5"
-            android:layout_below="@+id/cbQue1_4"
-            android:layout_alignLeft="@+id/cbQue1_4"
-            android:layout_alignStart="@+id/cbQue1_4" />
+            android:id="@+id/cbQue3_5"
+            android:layout_below="@+id/cbQue3_4"
+            android:layout_alignLeft="@+id/cbQue3_4"
+            android:layout_alignStart="@+id/cbQue3_4" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Major Allergy"
+            android:text="@string/medical_details_que3_option_6"
             android:checked="false"
-            android:id="@+id/cbQue1_6"
-            android:layout_below="@+id/cbQue1_5"
-            android:layout_alignLeft="@+id/cbQue1_5"
-            android:layout_alignStart="@+id/cbQue1_5" />
+            android:id="@+id/cbQue3_6"
+            android:layout_below="@+id/cbQue3_5"
+            android:layout_alignLeft="@+id/cbQue3_5"
+            android:layout_alignStart="@+id/cbQue3_5" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hepatitis B"
+            android:text="@string/medical_details_que3_option_7"
             android:checked="false"
-            android:id="@+id/cbQue1_7"
-            android:layout_below="@+id/cbQue1_6"
-            android:layout_alignLeft="@+id/cbQue1_6"
-            android:layout_alignStart="@+id/cbQue1_6" />
+            android:id="@+id/cbQue3_7"
+            android:layout_below="@+id/cbQue3_6"
+            android:layout_alignLeft="@+id/cbQue3_6"
+            android:layout_alignStart="@+id/cbQue3_6" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hepatitis C"
+            android:text="@string/medical_details_que3_option_8"
             android:checked="false"
-            android:id="@+id/cbQue1_8"
-            android:layout_below="@+id/cbQue1_7"
-            android:layout_alignLeft="@+id/cbQue1_7"
-            android:layout_alignStart="@+id/cbQue1_7" />
+            android:id="@+id/cbQue3_8"
+            android:layout_below="@+id/cbQue3_7"
+            android:layout_alignLeft="@+id/cbQue3_7"
+            android:layout_alignStart="@+id/cbQue3_7" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chronic Kidney Disease"
+            android:text="@string/medical_details_que3_option_9"
             android:checked="false"
-            android:id="@+id/cbQue1_9"
-            android:layout_below="@+id/cbQue1_8"
-            android:layout_alignLeft="@+id/cbQue1_8"
-            android:layout_alignStart="@+id/cbQue1_8" />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Diabetes"
-            android:checked="false"
-            android:id="@+id/cbQue1_10"
-            android:layout_below="@+id/cbQue1_9"
-            android:layout_alignLeft="@+id/cbQue1_9"
-            android:layout_alignStart="@+id/cbQue1_9" />
+            android:id="@+id/cbQue3_9"
+            android:layout_below="@+id/cbQue3_8"
+            android:layout_alignLeft="@+id/cbQue3_8"
+            android:layout_alignStart="@+id/cbQue3_8" />
 
     </RelativeLayout>
 </ScrollView>

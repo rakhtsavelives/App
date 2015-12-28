@@ -168,7 +168,7 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
         unSubscribe("loggedIN");
         unSubscribe("Donner");
         unSubscribe(user.getUsername().replaceAll("[^a-zA-Z0-9]", ""));
-        unSubscribe(InitClass.getBGChannel(ParseUser.getCurrentUser().getString("BG")));
+        unSubscribe(InitClass.getBGChannel(user.getString("BG")));
     }
 
 }

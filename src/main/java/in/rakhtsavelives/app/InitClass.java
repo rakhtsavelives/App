@@ -11,6 +11,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -193,6 +194,8 @@ public class InitClass extends Application {
                 return "AB_Pos";
             case "HH (Bombay)":
                 return "HH_Bombay";
+            case "Example":
+                return "Example";
             default:
                 return null;
         }
@@ -480,6 +483,15 @@ public class InitClass extends Application {
                     }
                 });
         return dBG;
+    }
+
+    protected static ArrayList getChecked(CheckBox[] QUE){
+        ArrayList queSelectedOptions=new ArrayList();
+        for(int i=0;i<QUE.length;i++){
+            if(QUE[i].isChecked())
+                queSelectedOptions.add(QUE[i].getText());
+        }
+        return queSelectedOptions;
     }
 
     @Override

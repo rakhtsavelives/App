@@ -14,19 +14,16 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
-public class MedicalDetailsActivityQue2 extends AppCompatActivity {
+public class MedicalDetailsActivityQue4 extends AppCompatActivity {
 
-    Button btnNextQue2;
-    CheckBox[] que2;
-    private int[] QUE_2_IDS =
+    Button btnNextQue4;
+    CheckBox[] que4;
+    private int[] QUE_4_IDS =
             {
-                    R.id.cbQue2_1,
-                    R.id.cbQue2_2,
-                    R.id.cbQue2_3,
-                    R.id.cbQue2_4,
-                    R.id.cbQue2_5,
-                    R.id.cbQue2_6,
-                    R.id.cbQue2_7,
+                    R.id.cbQue4_1,
+                    R.id.cbQue4_2,
+                    R.id.cbQue4_3,
+                    R.id.cbQue4_4,
             };
     ParseUser user;
     Intent i;
@@ -35,30 +32,28 @@ public class MedicalDetailsActivityQue2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_medical_details_que2);
+        setContentView(R.layout.activity_medical_details_que4);
         dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage("Please wait...");
         dialog.setIndeterminate(true);
         dialog.setCanceledOnTouchOutside(false);
         user = ParseUser.getCurrentUser();
-        que2 = new CheckBox[QUE_2_IDS.length];
-        for (int i = 0; i < QUE_2_IDS.length; i++) {
-            que2[i] = (CheckBox) findViewById(QUE_2_IDS[i]);
+        que4 = new CheckBox[QUE_4_IDS.length];
+        for (int i = 0; i < QUE_4_IDS.length; i++) {
+            que4[i] = (CheckBox) findViewById(QUE_4_IDS[i]);
         }
-        btnNextQue2 = (Button) findViewById(R.id.btnNextQue2);
-        btnNextQue2.setOnClickListener(new View.OnClickListener() {
+        btnNextQue4 = (Button) findViewById(R.id.btnNextQue4);
+        btnNextQue4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.show();
-                ArrayList que2SelectedOptions = InitClass.getChecked(que2);
-                if (que2SelectedOptions.size() == 0) {
-                    que2SelectedOptions.add("FALSE");
-                    i = new Intent(getApplicationContext(), MedicalDetailsActivityQue3.class);
-                } else {
-                    i = new Intent(getApplicationContext(), TabActivity.class);
+                ArrayList que4SelectedOptions = InitClass.getChecked(que4);
+                if (que4SelectedOptions.size() == 0) {
+                    que4SelectedOptions.add("FALSE");
                 }
-                user.put("QUE2", que2SelectedOptions);
+                i = new Intent(getApplicationContext(), TabActivity.class);
+                user.put("QUE4", que4SelectedOptions);
                 user.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {

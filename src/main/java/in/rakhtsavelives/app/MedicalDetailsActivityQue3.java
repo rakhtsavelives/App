@@ -14,19 +14,21 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
-public class MedicalDetailsActivityQue2 extends AppCompatActivity {
+public class MedicalDetailsActivityQue3 extends AppCompatActivity {
 
-    Button btnNextQue2;
-    CheckBox[] que2;
-    private int[] QUE_2_IDS =
+    Button btnNextQue3;
+    CheckBox[] que3;
+    private int[] QUE_3_IDS =
             {
-                    R.id.cbQue2_1,
-                    R.id.cbQue2_2,
-                    R.id.cbQue2_3,
-                    R.id.cbQue2_4,
-                    R.id.cbQue2_5,
-                    R.id.cbQue2_6,
-                    R.id.cbQue2_7,
+                    R.id.cbQue3_1,
+                    R.id.cbQue3_2,
+                    R.id.cbQue3_3,
+                    R.id.cbQue3_4,
+                    R.id.cbQue3_5,
+                    R.id.cbQue3_6,
+                    R.id.cbQue3_7,
+                    R.id.cbQue3_8,
+                    R.id.cbQue3_9
             };
     ParseUser user;
     Intent i;
@@ -35,30 +37,30 @@ public class MedicalDetailsActivityQue2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_medical_details_que2);
+        setContentView(R.layout.activity_medical_details_que3);
         dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage("Please wait...");
         dialog.setIndeterminate(true);
         dialog.setCanceledOnTouchOutside(false);
         user = ParseUser.getCurrentUser();
-        que2 = new CheckBox[QUE_2_IDS.length];
-        for (int i = 0; i < QUE_2_IDS.length; i++) {
-            que2[i] = (CheckBox) findViewById(QUE_2_IDS[i]);
+        que3 = new CheckBox[QUE_3_IDS.length];
+        for (int i = 0; i < QUE_3_IDS.length; i++) {
+            que3[i] = (CheckBox) findViewById(QUE_3_IDS[i]);
         }
-        btnNextQue2 = (Button) findViewById(R.id.btnNextQue2);
-        btnNextQue2.setOnClickListener(new View.OnClickListener() {
+        btnNextQue3 = (Button) findViewById(R.id.btnNextQue3);
+        btnNextQue3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.show();
-                ArrayList que2SelectedOptions = InitClass.getChecked(que2);
-                if (que2SelectedOptions.size() == 0) {
-                    que2SelectedOptions.add("FALSE");
-                    i = new Intent(getApplicationContext(), MedicalDetailsActivityQue3.class);
+                ArrayList que3SelectedOptions = InitClass.getChecked(que3);
+                if (que3SelectedOptions.size() == 0) {
+                    que3SelectedOptions.add("FALSE");
+                    i = new Intent(getApplicationContext(), MedicalDetailsActivityQue4.class);
                 } else {
                     i = new Intent(getApplicationContext(), TabActivity.class);
                 }
-                user.put("QUE2", que2SelectedOptions);
+                user.put("QUE3", que3SelectedOptions);
                 user.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {

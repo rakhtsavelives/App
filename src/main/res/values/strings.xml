@@ -13,8 +13,75 @@
     <string name="title_activity_tab">TabActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
-    <string name="medical_details_que1">Have any time suffered with any of the following (Select all that apply) :</string>
-    <string name="medical_details_que2">Have you suffered/gone through  from any of following is past 1 year (Select All that apply) :</string>
-    <string name="medical_details_que3"></string>
-    <string name="medical_details_que4"></string>
+    <string name="medical_details_que1">Have you suffered/gone through from any of following any time? (Select all that apply) :</string>
+    <string name="medical_details_que2">Have you suffered/gone through from any of following in past 1 year? (Select All that apply) :</string>
+    <string name="medical_details_que3">Have you suffered/gone through from any of following in past 6 months? (Select All that apply) :</string>
+    <string name="medical_details_que4">Have you suffered/gone through from any of following in past 3 months? (Select All that apply) :</string>
+
+    <string-array name="medical_details_que2_options"></string-array>
+    <string-array name="medical_details_que3_options"></string-array>
+    <string-array name="medical_details_que4_options"></string-array>
+
+    <string name="medical_details_que1_option_1">Cancer</string>
+    <string name="medical_details_que1_option_2">Liver Disease (Jaundice)</string>
+    <string name="medical_details_que1_option_3">HIV AIDS</string>
+    <string name="medical_details_que1_option_4">Heart/Cardiac Disease</string>
+    <string name="medical_details_que1_option_5">Chronic Asthma</string>
+    <string name="medical_details_que1_option_6">Diabetes</string>
+    <string name="medical_details_que1_option_7">Major Allergy</string>
+    <string name="medical_details_que1_option_8">Hepatitis B</string>
+    <string name="medical_details_que1_option_9">Hepatitis C</string>
+    <string name="medical_details_que1_option_10">Chronic Kidney Disease</string>
+
+
+    <string name="medical_details_que2_option_1">Kidney Dialysis</string>
+    <string name="medical_details_que2_option_2">Transfusion of Blood or its Components</string>
+    <string name="medical_details_que2_option_3">Genital Case</string>
+    <string name="medical_details_que2_option_4">Chronic Skin Rashes</string>
+    <string name="medical_details_que2_option_5">Anti Rabic Vaccine for Dog bite</string>
+    <string name="medical_details_que2_option_6">Typhoid</string>
+    <string name="medical_details_que2_option_7">Tuberculosis</string>
+
+    <string name="medical_details_que3_option_1">Unexcepted Weight Loss</string>
+    <string name="medical_details_que3_option_2">Continuous Diarrhoea</string>
+    <string name="medical_details_que3_option_3">Continuous Cough with Body Pain</string>
+    <string name="medical_details_que3_option_4">Unreasonable Fever for more then 10 days</string>
+    <string name="medical_details_que3_option_5">Any Major Surgery</string>
+    <string name="medical_details_que3_option_6">Pregnancy or Abortion</string>
+    <string name="medical_details_que3_option_7">Any Major Injection</string>
+    <string name="medical_details_que3_option_8">Swollen Glands</string>
+    <string name="medical_details_que3_option_9">Tattooing or Ear Piercing</string>
+
+    <string name="medical_details_que4_option_1">Any Dental Extraction/Surgery</string>
+    <string name="medical_details_que4_option_2">Minor Surgery</string>
+    <string name="medical_details_que4_option_3">Malaria</string>
+    <string name="medical_details_que4_option_4">Blood Donation</string>
+
+    <string name="faqs">
+        1. Who can give blood?\n\n\tMost people can give blood between the age of 18 to 65 and weight at least 50 kgs.\n\n\n
+        2. Is it safe to donate blood?\n\n\tDonating blood is a safe process. Each donor’s blood is collected through a new, sterile needle that is used once and then discarded and hence by this process you are safe from all the diseases.\n\n\n
+        3. How often can I give blood?\n\n\tMale donors can can donate 4 times in 12 months with the minimum interval of 12 weeks between donations. We advise female donors to donate at an average of 16 weeks or more to reduce iron deficiency.\n\n\n
+        4. How much blood will be taken at a time?\n\n\tOnly about 470 ml.\n\n\n
+        5. How will giving blood affect my health?\n\n\tIf you are fit and fine, you should not experience any problems as your body makes this much blood in next 24 to 48 hrs.\n\n\n
+        6. What can I do before and after giving blood?\n\n\tBe sure to eat at your regular mealtimes and drink plenty of fluids before and after donating, but avoid alcohol.\n\n\n
+        7. Why can women donate less frequently than men?\n\n\tFemale donors do not have same levels of stored iron as male donors for lots of reasons. This could potentially put them at risk of anaemia and NHSBT will never risk the health of donors.\n\n\n
+        8. Can I go back to work on same day?\n\n\tYes, but avoid heavy lifting, pushing or picking up heavy objects for at least an hour after donating.\n\n\n
+        9. What if I feel faint when I get home?\n\n\tYou need to take it easy for a few hours after giving blood,but if you do feel faint or dizzy, lie down immediately with your legs raised. Ideally let someone else know if you are feeling unwell.\n\n\n
+        10.Is it OK to give blood after tattoo, piercing or acupuncture?\n\n\tThere is always an infection risk whenever the skin is pierced. If you have had acupuncture or any complementary therapy involving penetration by needles, please wait 4 months from receiving any of these treatments.\n\t
+           However, if your acupuncture was performed by NHS staff on NHS premises or was performed outside the NHS but by a qualified Health Care Professional, registered with a statutory body, then you may donate.
+    </string>
+    <string name="about_us">
+        \t\tFour different  people from four different backgrounds with four different personalities,
+        with a same ideology \"To save life\".\n\t\tRakht is the solution they came with.\n\t\tAs digitalization
+        is the basic key to success in today\'s world.\n\t\tPriya Mishra, Ashish Taneja, Deep Kakkad,
+        Apurva Purohit are four college students from U.V Patel college of engineering with a
+        massive obligation of saving lives and aiming to reconstruct a new blood donation cycle
+        which includes every individual(common man), small hospitals and blood banks.\n\t\tAs you\'re
+        reading this, a patient may be critically ill, whether he\'ll live or die depends on whether
+        a unit of blood of right type will be available to him.\n\t\tIndia has been always facing a
+        shortage of blood.\n\t\tPeople have to run from pillar to post for a unit of blood in their own
+        city or maybe to some other place.\n\n\t<i><b>\"Similar happened to us when one of our member\'s relative passed out because of unavailability of blood, which led us to: RAKHT\"</b></i>\n\n\n
+        You can contact us at <u><b>rakhtsavelives@gmail.com</b></u>
+    </string>
+
 </resources>

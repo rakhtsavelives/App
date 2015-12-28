@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ActionMenuView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -22,6 +23,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
+import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -31,6 +33,7 @@ import com.parse.SendCallback;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class EmergencyFragment extends Fragment implements View.OnClickListener {
     FloatingActionButton fabEmergency, fabAboutUs, fabFAQ, fabSearch, fabDonate;
@@ -215,7 +218,7 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
                 }
             });
         } else if (v == fabAboutUs) {
-            Toast.makeText(getContext(), "About Us Clicked", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(), AboutUsActivity.class));
         } else if (v == fabSearch) {
             final EditText input = new EditText(getContext());
             input.setLayoutParams(lp);
@@ -240,9 +243,68 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
                     .create()
                     .show();
         } else if (v == fabFAQ) {
-            Toast.makeText(getContext(), "FAQ Clicked", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(),FAQActivity.class));
         } else if (v == fabDonate) {
-            Toast.makeText(getContext(), "Donate Clicked", Toast.LENGTH_SHORT).show();
+            LinearLayout.LayoutParams lpll=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+            final EditText etEmail,etMoney;
+            etEmail=new EditText(getContext());
+            etMoney=new EditText(getContext());
+            etEmail.setHint("Email");
+            etEmail.setLayoutParams(lpll);
+            etMoney.setHint("Money(Rs.)");
+            etMoney.setLayoutParams(lpll);
+            final LinearLayout ll=new LinearLayout(getContext());
+            ll.setOrientation(LinearLayout.VERTICAL);
+            ll.setLayoutParams(lpll);
+            ll.addView(etEmail,0);
+            ll.addView(etMoney,1);
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Donate")
+                    .setMessage("Please Give Your Email and Money(In Rs.) to Donate:")
+                    .setView(ll)
+                    .setCancelable(true)
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setPositiveButton("Donate", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String emailAdd = etEmail.getText().toString();
+                            String money = etMoney.getText().toString();
+                            ParseObject donation = new ParseObject("Donation");
+                            donation.put("Username", username);
+                            donation.put("Phone", phone);
+                            donation.put("Email", emailAdd);
+                            donation.put("Money", money);
+                            donation.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        new AlertDialog.Builder(getContext())
+                                                .setTitle("Thanks for your Support!")
+                                                .setMessage("Your Donation will help us to\nSAVE Lives\n" +
+                                                        "You will shortly get a email from us\nIf you don't" +
+                                                        " receive an email you can contact us on \n" +
+                                                        " RakhtSaveLives@gmail.com.")
+                                                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+
+                                                    }
+                                                }).show();
+                                    } else {
+                                        Log.e(InitClass.TAG,"Donation Error",e);
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .create()
+                    .show();
+
         }
     }
 
