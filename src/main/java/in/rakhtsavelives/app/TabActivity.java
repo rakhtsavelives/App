@@ -122,6 +122,9 @@ public class TabActivity extends ActionBarActivity implements ActionBar.TabListe
             case R.id.action_logout:
                 logout();
                 return true;
+            case R.id.action_tutorial:
+                startActivity(new Intent(TabActivity.this, TutorialActivity.class));
+                return true;
             default:
                 return false;
         }

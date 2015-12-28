@@ -12,9 +12,12 @@ public class TutorialActivity extends AppIntro2 {
     public void init(Bundle savedInstanceState) {
         // Instead of fragments, you can also use our default slide
         // Just set a title, description, background and image. AppIntro will do the rest.
-        addSlide(AppIntroFragment.newInstance("Welcome", "This App can SAVE LIVES", R.drawable.splash_screen_shot, getResources().getColor(R.color.tutorial_slide_background)));
-        addSlide(AppIntroFragment.newInstance("Welcome", "This App can SAVE LIVES", R.drawable.emergency_screen_shot, getResources().getColor(R.color.tutorial_slide_background)));
-        addSlide(AppIntroFragment.newInstance("Welcome", "This App can SAVE LIVES", R.drawable.emergency_button_screen_shot, getResources().getColor(R.color.tutorial_slide_background)));
+        addSlide(AppIntroFragment.newInstance("Welcome", "An App For Mankind", R.drawable.splash_screen_shot, getResources().getColor(R.color.tutorial_slide_background)));
+        addSlide(AppIntroFragment.newInstance("Emergency Screen", "Many Solutions at One Place", R.drawable.emergency_screen_shot, getResources().getColor(R.color.tutorial_slide_background)));
+        addSlide(AppIntroFragment.newInstance("Emergency Button", "Life Saviour In Emergency", R.drawable.emergency_button_screen_shot, getResources().getColor(R.color.tutorial_slide_background)));
+        addSlide(AppIntroFragment.newInstance("Profile", "Your Confidential Profile", R.drawable.profile_screen_shot, getResources().getColor(R.color.tutorial_slide_background)));
+        addSlide(AppIntroFragment.newInstance("Availability across all groups", "We have included almost all Blood Groups available\n(Including Bombay Blood Group(HH))", R.drawable.bg_screen_shot, getResources().getColor(R.color.tutorial_slide_background)));
+        addSlide(AppIntroFragment.newInstance("Search", "Search each drop of blood across the Nation", R.drawable.search_screen_shot, getResources().getColor(R.color.tutorial_slide_background)));
 
         // OPTIONAL METHODS
         // Override bar/separator color.
