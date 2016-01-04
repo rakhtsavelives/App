@@ -13,6 +13,8 @@
     <string name="title_activity_tab">TabActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
+    <string name="blood_requesT_dialog_msg">Please Select Blood Group :\n(For trial use <b>Example</b> from below options)</string>
+
     <string name="medical_details_que1">Have you suffered/gone through from any of following any time? (Select all that apply) :</string>
     <string name="medical_details_que2">Have you suffered/gone through from any of following in past 1 year? (Select All that apply) :</string>
     <string name="medical_details_que3">Have you suffered/gone through from any of following in past 6 months? (Select All that apply) :</string>

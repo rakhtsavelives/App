@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 public class NotificationActivity extends Activity {
 
-    String msgToUser = "Hello", name, phone, username, reqName, reqPhone, reqUserName, donnerName, donnerPhone, channel;
+    String msgToUser = "Thanks for accepting the request. You're doing a great job by saving a life. Please do make sure that you've not donated blood in last 3 months and you've not taken any medicine in last three days.", name, phone, username, reqName, reqPhone, reqUserName, donnerName, donnerPhone, channel;
     ParseUser user;
     JSONObject sendData, receiveData;
     Intent intent;

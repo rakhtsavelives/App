@@ -22,11 +22,12 @@
             android:ems="10"
             android:id="@+id/etEmailSignUp"
             android:hint="Email"
-            android:layout_below="@+id/ibChooseProfilePic"
+            android:layout_marginTop="20dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+        <!--android:layout_below="@+id/ibChooseProfilePic"-->
 
         <EditText
             android:layout_width="wrap_content"
@@ -39,7 +40,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="35dp"
-            android:layout_toStartOf="@+id/ibChooseProfilePic"
             android:layout_alignRight="@+id/etEmailSignUp"
             android:layout_alignEnd="@+id/etEmailSignUp" />
 
@@ -54,8 +54,8 @@
             android:layout_below="@+id/etPassSignUp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/ibChooseProfilePic"
-            android:layout_alignEnd="@+id/ibChooseProfilePic" />
+            android:layout_alignRight="@+id/etPassSignUp"
+            android:layout_alignEnd="@+id/etPassSignUp" />
 
         <EditText
             android:hint="First Name"
@@ -199,6 +199,7 @@
             android:ems="10"
             android:id="@+id/etDOB"
             android:hint="DD-MM-YYYY"
+            android:gravity="center"
             android:focusableInTouchMode="false"
             android:editable="false"
             android:layout_below="@id/etLName"
@@ -207,7 +208,7 @@
             android:layout_toRightOf="@+id/tvBG"
             android:layout_alignRight="@+id/spinBG"/>
 
-        <ImageButton
+        <!--<ImageButton
             android:layout_width="110dp"
             android:layout_height="110dp"
             android:id="@+id/ibChooseProfilePic"
@@ -215,7 +216,7 @@
             android:src="@drawable/icon_blank_profile_64"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true" />-->
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -269,8 +270,8 @@
             android:layout_marginTop="25dp"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/tvBG"
-            android:layout_alignRight="@+id/rbGroup"
-            android:layout_alignEnd="@+id/rbGroup" />
+            android:layout_alignRight="@+id/btnNext"
+            android:layout_alignEnd="@+id/btnNext" />
         <TextView
             android:layout_width="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -279,6 +280,7 @@
             android:layout_above="@+id/spinBG"
             android:layout_toRightOf="@+id/etWeight"
             android:layout_toEndOf="@+id/etWeight" />
+
     </RelativeLayout>
 
 </ScrollView>

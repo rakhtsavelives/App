@@ -42,15 +42,17 @@ public class ListViewAdapter extends BaseAdapter {
             holder.name = (TextView) convertView.findViewById(R.id.tvName);
             holder.bg = (TextView) convertView.findViewById(R.id.tvBG);
             holder.city = (TextView) convertView.findViewById(R.id.tvCity);
+            holder.age = (TextView) convertView.findViewById(R.id.tvAge);
             convertView.setTag(holder);
         } else holder = (ViewHolder) convertView.getTag();
         holder.name.setText(items.get(position).getName());
         holder.bg.setText(items.get(position).getBg());
         holder.city.setText(items.get(position).getCity());
+        holder.age.setText(items.get(position).getAge());
         return convertView;
     }
 
     public class ViewHolder {
-        TextView name, bg, city;
+        TextView name, bg, city,age;
     }
 }

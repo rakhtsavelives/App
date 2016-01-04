@@ -37,33 +37,39 @@ public class SearchActivity extends AppCompatActivity {
         searchList = new ArrayList<ListViewItem>();
         searchAdapter = new ListViewAdapter(this, searchList);
         searchListView.setAdapter(searchAdapter);
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
         Intent i = getIntent();
+        final ParseQuery<ParseUser> query = ParseUser.getQuery();
         String searchName = i.getStringExtra("name");
-        query.whereMatches("First_Name", "("+searchName+")", "i");
-        query.findInBackground(new FindCallback<ParseUser>() {
+        query.whereMatches("First_Name", searchName, "i");
+        new Thread() {
             @Override
-            public void done(List<ParseUser> objects, ParseException e) {
-                if (e == null) {
-                    ListViewItem item;
-                    for (int i = 0; i < objects.size(); i++) {
-                        item = new ListViewItem
-                                (objects.get(i).getString("First_Name") + " " + objects.get(i).getString("Last_Name"),
-                                        objects.get(i).getString("BG"),
-                                        objects.get(i).getString("City"));
-                        searchList.add(item);
+            public void run() {
+                query.findInBackground(new FindCallback<ParseUser>() {
+                    @Override
+                    public void done(List<ParseUser> objects, ParseException e) {
+                        if (e == null) {
+                            ListViewItem item;
+                            for (int i = 0; i < objects.size(); i++) {
+                                item = new ListViewItem
+                                        (objects.get(i).getString("First_Name") + " " + objects.get(i).getString("Last_Name"),
+                                                "BG: "+objects.get(i).getString("BG"),
+                                                objects.get(i).getString("City"),
+                                                "Age: "+objects.get(i).getString("Age"));
+                                searchList.add(item);
+                            }
+                            if (objects.size() == 0)
+                                searchList.add(new ListViewItem("No Records Found!", "", "", ""));
+                            searchAdapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No records found!", Toast.LENGTH_LONG).show();
+                            searchList.add(new ListViewItem("No Records Found!", "", "", ""));
+                            searchAdapter.notifyDataSetChanged();
+                            Log.e(InitClass.TAG, e.toString());
+                        }
+                        dialog.dismiss();
                     }
-                    if(objects.size()==0)
-                        searchList.add(new ListViewItem("No Records Found!", "", ""));
-                    searchAdapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(getApplicationContext(), "No records found!", Toast.LENGTH_LONG).show();
-                    searchList.add(new ListViewItem("No Records Found!", "", ""));
-                    searchAdapter.notifyDataSetChanged();
-                    Log.e(InitClass.TAG, e.toString());
-                }
-                dialog.dismiss();
+                });
             }
-        });
+        }.start();
     }
 }

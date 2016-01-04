@@ -52,7 +52,7 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.MATCH_PARENT);
-
+/*
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -66,9 +66,9 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
                 .setContentTextPaint(new TextPaint(colorText))
                 .setContentTitle("Emergency Button")
                 .setContentText("This is Emergency button!")
-                .build();*/
+                .build();
 
-    }
+    }*/
 
     public EmergencyFragment() {
         BG = new ArrayList();
@@ -100,19 +100,24 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
         View rootView = inflater.inflate(R.layout.fragment_emergency, container, false);
         canDonate = user.getBoolean("CanDonate");
         subscribe(InitClass.getBGChannel(bg));
-        if (canDonate) {
-            subscribe("Donner");
-        } else unsubscribe("Donner", new SaveCallback() {
+        new Thread(){
             @Override
-            public void done(ParseException e) {
-                if (e == null)
-                    Log.d(InitClass.TAG, "successfully unsubscribed to the broadcast channel.");
-                else
-                    Log.e(InitClass.TAG, e.getMessage());
+            public void run() {
+                if (canDonate) {
+                    subscribe("Donner");
+                } else unsubscribe("Donner", new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null)
+                            Log.d(InitClass.TAG, "successfully unsubscribed to the broadcast channel.");
+                        else
+                            Log.e(InitClass.TAG, e.getMessage());
+                    }
+                });
+                subscribe(username.replaceAll("[^a-zA-Z0-9]", ""));
+                Log.d(InitClass.TAG, username.replaceAll("[^a-zA-Z0-9]", ""));
             }
-        });
-        subscribe(username.replaceAll("[^a-zA-Z0-9]", ""));
-        Log.d(InitClass.TAG, username.replaceAll("[^a-zA-Z0-9]", ""));
+        }.start();
         fabEmergency = (FloatingActionButton) rootView.findViewById(R.id.fabEmergency);
         fabAboutUs = (FloatingActionButton) rootView.findViewById(R.id.fabAboutUs);
         fabSearch = (FloatingActionButton) rootView.findViewById(R.id.fabSearch);
@@ -161,7 +166,7 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
                         spinnerBG.setSelection(BG.indexOf(bg));
                         new AlertDialog.Builder(getContext())
                                 .setTitle("Request for Blood")
-                                .setMessage("Please Select Blood Group :")
+                                .setMessage(R.string.blood_requesT_dialog_msg)
                                 .setView(spinnerBG)
                                 .setCancelable(false)
                                 .setPositiveButton("Request", new DialogInterface.OnClickListener() {
@@ -190,6 +195,16 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
                                                         Log.d(InitClass.TAG, "Donner :" + InitClass.findDonners(requestBG).get(i));
                                                     }
                                                     subscribe("Donner");
+                                                    new AlertDialog.Builder(getContext())
+                                                            .setTitle("Request for Blood")
+                                                            .setMessage("Blood request has been sent to people with same blood group. They will contact you soon!")
+                                                            .setCancelable(false)
+                                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                }
+                                                            })
+                                                            .show();
                                                     Toast.makeText(getContext(), "Blood Request has been sent..\nPlease wait..", Toast.LENGTH_SHORT).show();
                                                     if (interstitialAdMain.isLoaded()) {
                                                         Log.d(InitClass.TAG, "AD Loaded");
@@ -274,32 +289,36 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
                         public void onClick(DialogInterface dialog, int which) {
                             String emailAdd = etEmail.getText().toString();
                             String money = etMoney.getText().toString();
-                            ParseObject donation = new ParseObject("Donation");
-                            donation.put("Username", username);
-                            donation.put("Phone", phone);
-                            donation.put("Email", emailAdd);
-                            donation.put("Money", money);
-                            donation.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        new AlertDialog.Builder(getContext())
-                                                .setTitle("Thanks for your Support!")
-                                                .setMessage("Your Donation will help us to\nSAVE Lives\n" +
-                                                        "You will shortly get a email from us\nIf you don't" +
-                                                        " receive an email you can contact us on \n" +
-                                                        " RakhtSaveLives@gmail.com.")
-                                                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
+                            if (!emailAdd.isEmpty() && !money.isEmpty()) {
+                                ParseObject donation = new ParseObject("Donation");
+                                donation.put("Username", username);
+                                donation.put("Phone", phone);
+                                donation.put("Email", emailAdd);
+                                donation.put("Money", money);
+                                donation.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e == null) {
+                                            new AlertDialog.Builder(getContext())
+                                                    .setTitle("Thanks for your Support!")
+                                                    .setMessage("Your Donation will help us to\nSAVE Lives\n" +
+                                                            "You will shortly get a email from us\nIf you don't" +
+                                                            " receive an email you can contact us on \n" +
+                                                            " RakhtSaveLives@gmail.com.")
+                                                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
 
-                                                    }
-                                                }).show();
-                                    } else {
-                                        Log.e(InitClass.TAG,"Donation Error",e);
+                                                        }
+                                                    }).show();
+                                        } else {
+                                            Log.e(InitClass.TAG, "Donation Error", e);
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            } else {
+                                Toast.makeText(getContext(),"Please Fill Email & Money Both!",Toast.LENGTH_LONG);
+                            }
                         }
                     })
                     .create()

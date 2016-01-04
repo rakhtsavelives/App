@@ -53,9 +53,9 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     RadioButton rbMale, rbFemale;
     String email, pass, dState, dCity, dBG, picturePath = null;
     Button btnNext;
-    ImageButton ibChooseProfilePic;
+  //  ImageButton ibChooseProfilePic;
     Context context = this;
-    Boolean fileUploaded = false;
+   // Boolean fileUploaded = false;
     ArrayList<String> STATE, CITY, BG;
     String useremail, userpass, userfname, usercpass, userlname, userdob, useradd1, useradd2, userstate,
             usercity, userbg, userphone, userweight;
@@ -63,7 +63,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     Bitmap bitmap;
     ProgressDialog dialog;
 
-    public static int calculateInSampleSize(
+ /*   public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -81,7 +81,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         return inSampleSize;
     }
-
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -101,7 +101,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("Uploading Image and Creating Account.\n Please wait...");
+        dialog.setMessage("Creating Account...\n Please wait...");
         dialog.setIndeterminate(true);
         dialog.setCanceledOnTouchOutside(false);
 
@@ -135,7 +135,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         spinCity.setAdapter(cityAdapter);
         spinBG.setAdapter(bgAdapter);
 
-        ibChooseProfilePic = (ImageButton) findViewById(R.id.ibChooseProfilePic);
+       // ibChooseProfilePic = (ImageButton) findViewById(R.id.ibChooseProfilePic);
 
         btnNext = (Button) findViewById(R.id.btnNext);
 
@@ -185,22 +185,25 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 }
             }
         });
-        ibChooseProfilePic.setOnClickListener(new View.OnClickListener() {
+   /*     ibChooseProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                chooseImage(v);
             }
-        });
+        });*/
         spinState.setOnItemSelectedListener(this);
 
     }
-
+   /* protected void chooseImage(View v){
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, RESULT_LOAD_IMAGE);
+    }*/
     protected boolean checkInputes() {
         if (useremail.isEmpty() || userpass.isEmpty() || userfname.isEmpty() || userlname.isEmpty()
                 || userdob.isEmpty() || useradd1.isEmpty() || userphone.isEmpty()
                 || userstate.equals(dState) || userbg.equals(dBG) || userweight.isEmpty()
-                || picturePath == null || (rbMale.isChecked() == false && rbFemale.isChecked() == false)) {
+                //|| picturePath == null
+                || (rbMale.isChecked() == false && rbFemale.isChecked() == false)) {
             Toast.makeText(context, "Please Fill All Details", Toast.LENGTH_SHORT).show();
             return false;
         } else {
@@ -220,7 +223,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     protected void signUp() {
         //Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
         dialog.show();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+     /*   ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
         byte[] image = stream.toByteArray();
         pf = new ParseFile(userfname + "_" + userlname + ".png", image);
@@ -245,7 +248,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             public void done(Integer percentDone) {
                 Log.d(InitClass.TAG, percentDone + "% done");
             }
-        });
+        });*/
+        saveToParse();
 
     }
 
@@ -263,7 +267,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         user.put("City", usercity);
         user.put("BG", userbg);
         user.put("Phone", Long.parseLong(userphone));
-        if (fileUploaded) user.put("ProfilePic", pf);
+    //    if (fileUploaded) user.put("ProfilePic", pf);
         user.put("Gender", gender);
         user.put("Age", getAge(userdob));
         user.put("Weight", userweight);
@@ -303,7 +307,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     }
 
-    @Override
+  /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
@@ -367,7 +371,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
-    }
+    }*/
 
     protected String getAge(String DOB) {
         Calendar dob = Calendar.getInstance();

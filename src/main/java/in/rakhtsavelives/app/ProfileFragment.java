@@ -33,7 +33,7 @@ import java.util.Calendar;
 public class ProfileFragment extends Fragment {
     TextView tvName, tvBG;
     EditText etDOB, etPhone, etAdd1, etAdd2, etCity, etState, etGender, etWeight;
-    ImageButton ibProfile, ibEdit;
+    ImageButton ibEdit;//,ibProfile;
     Button btnProfileUpdate;
     String name, bg, dob, phone, add1, add2, city, state, email, gender, age, weight;
     int heightOfBitmap, widthOfBitmap;
@@ -80,7 +80,7 @@ public class ProfileFragment extends Fragment {
         etGender = (EditText) rootView.findViewById(R.id.etProfileGender);
         etWeight = (EditText) rootView.findViewById(R.id.etProfileWeight);
 
-        ibProfile = (ImageButton) rootView.findViewById(R.id.ibProfile);
+       // ibProfile = (ImageButton) rootView.findViewById(R.id.ibProfile);
         ibEdit = (ImageButton) rootView.findViewById(R.id.ibEdit);
 
         switch (screenSize) {
@@ -118,7 +118,7 @@ public class ProfileFragment extends Fragment {
         else
             user.put("CanDonate", false);
         user.saveInBackground();
-        try {
+       /* try {
             ParseFile pf = user.getParseFile("ProfilePic");
             pf.getDataInBackground(new GetDataCallback() {
                 @Override
@@ -136,7 +136,7 @@ public class ProfileFragment extends Fragment {
             });
         } catch (Exception e) {
             Log.e(InitClass.TAG,"No image found");
-        }
+        }*/
         tvName.setText(name);
         tvBG.setText(bg);
         etDOB.setText(dob + " (" + age + " Years)");
@@ -157,12 +157,12 @@ public class ProfileFragment extends Fragment {
                 etState.setEnabled(true);
                 etWeight.setEnabled(true);
                 btnProfileUpdate.setVisibility(View.VISIBLE);
-                ibProfile.setOnClickListener(new View.OnClickListener() {
+                /*ibProfile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                     }
-                });
+                });*/
             }
         });
 

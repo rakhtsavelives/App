@@ -1,11 +1,13 @@
 package in.rakhtsavelives.app;
 
 public class ListViewItem {
-    private String name,bg,city;
-    public ListViewItem(String name,String bg,String city){
-        this.name=name;
-        this.bg=bg;
-        this.city=city;
+    private String name, bg, city, age;
+
+    public ListViewItem(String name, String bg, String city, String age) {
+        this.name = name;
+        this.bg = bg;
+        this.city = city;
+        this.age = age;
     }
 
     public String getName() {
@@ -18,5 +20,9 @@ public class ListViewItem {
 
     public String getCity() {
         return city;
+    }
+
+    public String getAge() {
+        return age;
     }
 }
