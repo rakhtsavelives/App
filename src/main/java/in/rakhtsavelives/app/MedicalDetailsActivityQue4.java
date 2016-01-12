@@ -2,8 +2,8 @@ package in.rakhtsavelives.app;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,6 +18,9 @@ public class MedicalDetailsActivityQue4 extends AppCompatActivity {
 
     Button btnNextQue4;
     CheckBox[] que4;
+    ParseUser user;
+    Intent i;
+    ProgressDialog dialog;
     private int[] QUE_4_IDS =
             {
                     R.id.cbQue4_1,
@@ -25,9 +28,6 @@ public class MedicalDetailsActivityQue4 extends AppCompatActivity {
                     R.id.cbQue4_3,
                     R.id.cbQue4_4,
             };
-    ParseUser user;
-    Intent i;
-    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,10 @@ public class MedicalDetailsActivityQue4 extends AppCompatActivity {
                     que4SelectedOptions.add("FALSE");
                 }
                 i = new Intent(getApplicationContext(), TabActivity.class);
+                if (que4SelectedOptions.get(0) != "FALSE")
+                    user.put("CANT_DONATE_FOR_3_MONTHS", true);
+                else
+                    user.put("CANT_DONATE_FOR_3_MONTHS", false);
                 user.put("QUE4", que4SelectedOptions);
                 user.saveInBackground(new SaveCallback() {
                     @Override

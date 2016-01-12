@@ -62,6 +62,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     ParseFile pf = null;
     Bitmap bitmap;
     ProgressDialog dialog;
+    DecimalFormat decimalFormat = new DecimalFormat("00");
+
 
  /*   public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -146,7 +148,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onClick(View v) {
                 final int[] date = getTodayDate();
-                final DecimalFormat decimalFormat = new DecimalFormat("00");
                 DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -255,6 +256,11 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     private void saveToParse() {
         String gender = rbMale.isChecked() ? "Male" : "Female";
+        int[] date=getTodayDate();
+
+        String regDate=decimalFormat.format(date[2]) + "/"
+                + decimalFormat.format(date[1] + 1) + "/"
+                + decimalFormat.format(date[0]);
         final ParseUser user = new ParseUser();
         user.setUsername(useremail);
         user.setPassword(userpass);
@@ -267,6 +273,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         user.put("City", usercity);
         user.put("BG", userbg);
         user.put("Phone", Long.parseLong(userphone));
+        user.put("DATE_OF_REGESTRATION",regDate);
     //    if (fileUploaded) user.put("ProfilePic", pf);
         user.put("Gender", gender);
         user.put("Age", getAge(userdob));

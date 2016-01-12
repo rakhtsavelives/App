@@ -58,6 +58,13 @@ public class MedicalDetailsActivityQue2 extends AppCompatActivity {
                 } else {
                     i = new Intent(getApplicationContext(), TabActivity.class);
                 }
+                if (que2SelectedOptions.get(0) != "FALSE") {
+                    user.put("CANT_DONATE_FOR_1_YEAR", true);
+                    user.put("CANT_DONATE_FOR_6_MON", true);
+                    user.put("CANT_DONATE_FOR_3_MONTHS", true);
+                }
+                else
+                    user.put("CANT_DONATE_FOR_1_YEAR", false);
                 user.put("QUE2", que2SelectedOptions);
                 user.saveInBackground(new SaveCallback() {
                     @Override

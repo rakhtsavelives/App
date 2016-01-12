@@ -3,7 +3,6 @@ package in.rakhtsavelives.app;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ActionMenuView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -33,7 +31,6 @@ import com.parse.SendCallback;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class EmergencyFragment extends Fragment implements View.OnClickListener {
     FloatingActionButton fabEmergency, fabAboutUs, fabFAQ, fabSearch, fabDonate;
@@ -45,10 +42,8 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
     ArrayAdapter bgAdapter;
     protected static InterstitialAd interstitialAdMain;
     private String MAIN_AD_UNIT_INTERSTITIAL_ID = "ca-app-pub-1183027429910842/6853137412";
-    Paint colorTitle = new Paint();
-    Paint colorText = new Paint();
 
-    String name, phone, bg, requestBG, username;
+    String name, phone, bg, requestBG, username,regDate;
     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.MATCH_PARENT);
@@ -174,6 +169,10 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
                                     public void onClick(DialogInterface dialog, int which) {
                                         requestBG = (String) spinnerBG.getSelectedItem();
                                         ParseQuery userQuery = ParseUser.getQuery();
+                                        userQuery.whereNotEqualTo("NEVER_DONATE", true);
+                                        userQuery.whereNotEqualTo("CANT_DONATE_FOR_1_YEAR",true);
+                                        userQuery.whereNotEqualTo("CANT_DONATE_FOR_6_MON",true);
+                                        userQuery.whereNotEqualTo("CANT_DONATE_FOR_3_MONTHS",true);
                                         userQuery.whereEqualTo("City", user.get("City"));
                                         userQuery.whereContainedIn("BG", InitClass.findDonnersInBGColumn(requestBG));
                                         ParseQuery pushQuery = ParseInstallation.getQuery();

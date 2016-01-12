@@ -19,6 +19,9 @@ public class MedicalDetailsActivityQue1 extends AppCompatActivity {
 
     Button btnNextQue1;
     CheckBox[] que1;
+    ParseUser user;
+    Intent i;
+    ProgressDialog dialog;
     private int[] QUE_1_IDS =
             {
                     R.id.cbQue1_1,
@@ -32,9 +35,6 @@ public class MedicalDetailsActivityQue1 extends AppCompatActivity {
                     R.id.cbQue1_9,
                     R.id.cbQue1_10,
             };
-    ParseUser user;
-    Intent i;
-    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,25 +55,31 @@ public class MedicalDetailsActivityQue1 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.show();
-                ArrayList que1SelectedOptions=InitClass.getChecked(que1);
-                if(que1SelectedOptions.size()==0){
+                ArrayList que1SelectedOptions = InitClass.getChecked(que1);
+                if (que1SelectedOptions.size() == 0) {
                     que1SelectedOptions.add("FALSE");
-                    i=new Intent(getApplicationContext(),MedicalDetailsActivityQue2.class);
+                    i = new Intent(getApplicationContext(), MedicalDetailsActivityQue2.class);
+                } else {
+                    i = new Intent(getApplicationContext(), TabActivity.class);
                 }
-                else {
-                    i=new Intent(getApplicationContext(),TabActivity.class);
+                if (que1SelectedOptions.get(0) != "FALSE") {
+                    user.put("NEVER_DONATE", true);
+                    user.put("CANT_DONATE_FOR_1_YEAR", true);
+                    user.put("CANT_DONATE_FOR_6_MON", true);
+                    user.put("CANT_DONATE_FOR_3_MONTHS", true);
                 }
+                else
+                    user.put("NEVER_DONATE", false);
                 user.put("QUE1", que1SelectedOptions);
                 user.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        if(e==null) {
+                        if (e == null) {
                             startActivity(i);
                             finish();
                             dialog.dismiss();
-                        }
-                        else {
-                            Log.e(InitClass.TAG,"Medical Details 1",e);
+                        } else {
+                            Log.e(InitClass.TAG, "Medical Details 1", e);
                         }
                     }
                 });
